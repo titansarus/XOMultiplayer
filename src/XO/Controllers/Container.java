@@ -1,8 +1,7 @@
 package XO.Controllers;
 
-import XO.Exceptions.AccountExistException;
-import XO.Exceptions.InvalidPasswordException;
-import XO.Exceptions.NoAccountExistException;
+import XO.Exceptions.*;
+import javafx.animation.Timeline;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.stage.Stage;
@@ -27,6 +26,13 @@ public class Container {
         if (msg.equals(ACCOUNT_NOT_EXIST_EXCEPTION_PROMPT)) {
             alertShower(new NoAccountExistException(), "Account Not Exists");
         }
+        if (msg.equals(NO_USER_LOGINED)) {
+            alertShower(new NoUserLoginedException(), "No User Logined");
+        }
+        if (msg.equals(USER_ALREADY_LOGINED_PROMPT))
+        {
+            alertShower(new UserAlreadyLoginedException() , "User Already Logined");
+        }
     }
 
     public static void alertShower(Exception e, String title) {
@@ -35,5 +41,6 @@ public class Container {
         alert.setHeaderText(title);
         alert.show();
     }
+
 
 }

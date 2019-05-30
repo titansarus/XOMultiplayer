@@ -113,6 +113,30 @@ public class LoginController {
 
     }
 
+    public void handleBtnMainMenu()
+    {
+        if (loginedUser_lbl.getText().equals(NO_USER_LOGINED))
+        {
+            Container.ExceptionGenerator(NO_USER_LOGINED);
+            return;
+        }
+        Pane root = null;
+        FXMLLoader fxmlLoader = null;
+        try {
+            fxmlLoader = new FXMLLoader(getClass().getResource("/XO/ViewFXML/MainMenu.fxml"));
+            root = fxmlLoader.load();
+            int i = 0;
+            System.out.println(i);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        Scene scene = new Scene(root);
+        Container.scenes.addLast(scene);
+        Container.stage.setScene(Container.scenes.getLast());
+        Container.stage.show();
+
+    }
+
     public void handleBtnLogin() throws IOException {
         String username = username_tf.getText();
         String password = password_tf.getText();

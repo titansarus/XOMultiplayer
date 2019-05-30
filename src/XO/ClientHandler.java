@@ -16,6 +16,7 @@ public class ClientHandler implements Runnable {
     public Server server;
     public long UID;
     public Account account = null;
+    public boolean isQuit = false;
 
     public ClientHandler(DataOutputStream dos, DataInputStream dis, Server server, Socket socket, long UID) {
         this.dos = dos;
@@ -25,7 +26,7 @@ public class ClientHandler implements Runnable {
 
     @Override
     public void run() {
-        while (true) {
+        while (!isQuit) {
             try {
                 String s = dis.readUTF();
                 handleInput(s);
@@ -48,13 +49,21 @@ public class ClientHandler implements Runnable {
                 goToAllUsers();
             } else if (strings[0].equals(LOGINED_USER)) { //LogindUser
                 loginedUser();
+            } else if (strings[0].equals(QUIT)) {
+                quit(strings[1]);
             }
         }
     }
 
+    private void quit(String string) {
+        Account.deleteAccount(string, Server.loginedAccount);
+        Server.clientHandlers.remove(this);
+        isQuit = true;
+    }
+
     private void loginedUser() throws IOException {
         if (this.account == null) {
-            dos.writeUTF("NO USER LOGINED");
+            dos.writeUTF(NO_USER_LOGINED);
         } else {
             String send = this.account.getUsername();
             dos.writeUTF(send);
@@ -76,10 +85,14 @@ public class ClientHandler implements Runnable {
         if (!Account.accountExist(accountName, Server.allOfAccount)) {
             sendMessage = ACCOUNT_NOT_EXIST_EXCEPTION_PROMPT;
         } else if (Account.isAccountPasswordRight(accountName, password, Server.allOfAccount)) {
-            Account account = Account.findAccount(accountName, Server.allOfAccount);
-            this.account = account;
-            Server.loginedAccount.add(account);
-            sendMessage = DONE;
+            if (Account.accountExist(accountName, Server.loginedAccount)) {
+                sendMessage = USER_ALREADY_LOGINED_PROMPT;
+            } else {
+                Account account = Account.findAccount(accountName, Server.allOfAccount);
+                this.account = account;
+                Server.loginedAccount.add(account);
+                sendMessage = DONE;
+            }
         } else {
             sendMessage = INVALID_PASSWORD_EXCEPTION_PROMPT;
         }

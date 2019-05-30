@@ -40,9 +40,20 @@ public class Account {
         return null;
     }
 
-    public static boolean accountExist(String username , ArrayList<Account> accounts)
-    {
+    public static boolean accountExist(String username, ArrayList<Account> accounts) {
         return findAccount(username, accounts) != null;
+    }
+
+    public static void deleteAccount(String username, ArrayList<Account> accounts) {
+        if (accounts != null) {
+            for (int i = 0; i < accounts.size(); i++) {
+                Account account = accounts.get(i);
+                if (account != null && account.getUsername().equals(username)) {
+                    accounts.remove(account);
+                    return;
+                }
+            }
+        }
     }
 
     public int getHighscore() {

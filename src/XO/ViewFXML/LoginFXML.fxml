@@ -6,20 +6,16 @@
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.layout.AnchorPane?>
 
-
-<AnchorPane prefHeight="500.0" prefWidth="500.0" xmlns="http://javafx.com/javafx/8.0.171"
-            xmlns:fx="http://javafx.com/fxml/1" fx:controller="XO.Controllers.LoginController">
+<AnchorPane prefHeight="500.0" prefWidth="500.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="XO.Controllers.LoginController">
     <children>
-        <Button fx:id="signUp_btn" layoutX="348.0" layoutY="349.0" mnemonicParsing="false" onAction="#handleBtnSignUp"
-                text="Sign Up"/>
-        <Button fx:id="login_btn" layoutX="131.0" layoutY="349.0" mnemonicParsing="false" onAction="#handleBtnLogin"
-                text="Login"/>
-        <TextField fx:id="username_tf" layoutX="227.0" layoutY="175.0" promptText="Username"/>
-        <Label layoutX="154.0" layoutY="179.0" text="Username"/>
-        <Label layoutX="154.0" layoutY="238.0" text="Password"/>
-        <PasswordField fx:id="password_tf" layoutX="227.0" layoutY="234.0" promptText="Password"/>
-        <Button fx:id="listOfUsers_btn" layoutX="227.0" layoutY="455.0" mnemonicParsing="false"
-                onAction="#handleListOfUsersButton" text="List of Users"/>
-        <Label fx:id="loginedUser_lbl" layoutX="270.0" layoutY="14.0" prefHeight="17.0" prefWidth="212.0"/>
+        <Button fx:id="signUp_btn" layoutX="348.0" layoutY="349.0" mnemonicParsing="false" onAction="#handleBtnSignUp" text="Sign Up" />
+        <Button fx:id="login_btn" layoutX="131.0" layoutY="349.0" mnemonicParsing="false" onAction="#handleBtnLogin" text="Login" />
+        <TextField fx:id="username_tf" layoutX="227.0" layoutY="175.0" promptText="Username" />
+        <Label layoutX="154.0" layoutY="179.0" text="Username" />
+        <Label layoutX="154.0" layoutY="238.0" text="Password" />
+        <PasswordField fx:id="password_tf" layoutX="227.0" layoutY="234.0" promptText="Password" />
+        <Button fx:id="listOfUsers_btn" layoutX="114.0" layoutY="455.0" mnemonicParsing="false" onAction="#handleListOfUsersButton" text="List of Users" />
+        <Label fx:id="loginedUser_lbl" layoutX="270.0" layoutY="14.0" prefHeight="17.0" prefWidth="212.0" />
+      <Button fx:id="mainMenu_btn" layoutX="350.0" layoutY="455.0" mnemonicParsing="false" onAction="#handleBtnMainMenu" text="MainMenu" />
     </children>
 </AnchorPane>
