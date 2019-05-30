@@ -1,6 +1,7 @@
 package XO.Controllers;
 
 import XO.Client;
+import XO.Constants;
 import com.jfoenix.controls.JFXButton;
 import javafx.animation.Animation;
 import javafx.animation.KeyFrame;
@@ -17,6 +18,7 @@ import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.Pane;
 import javafx.util.Duration;
+import sun.plugin.dom.DOMObject;
 
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
@@ -104,6 +106,10 @@ public class LoginController {
 
         dos.writeUTF(sendMessage);
 
+        String result = dis.readUTF();
+
+        Container.ExceptionGenerator(result);
+
 
     }
 
@@ -113,6 +119,11 @@ public class LoginController {
 
         String sendMessage = LOGIN + " " + username + " " + password;
         Client.dos.writeUTF(sendMessage);
+
+        String result = Client.dis.readUTF();
+
+        Container.ExceptionGenerator(result);
+
     }
 
 

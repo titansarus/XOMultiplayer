@@ -6,7 +6,7 @@ import java.io.DataInputStream;
 import java.io.DataOutputStream;
 import java.io.IOException;
 import java.net.Socket;
-import java.util.StringTokenizer;
+
 import static XO.Constants.*;
 
 public class ClientHandler implements Runnable {
@@ -40,35 +40,67 @@ public class ClientHandler implements Runnable {
         String[] strings = s.split("\\s");
         if (strings.length >= 1) {
             if (strings[0].equals(SIGNUP)) { //Signup
-                String accountName = strings[1];
-                String password = strings[2];
-
-                Account account = new Account(accountName, password);
-                Server.allOfAccount.add(account);
+                signUp(strings);
             } else if (strings[0].equals(LOGIN)) { //Login
-                String accountName = strings[1];
-                String password = strings[2];
-                if (Account.isAccountPasswordRight(accountName, password, Server.allOfAccount)) {
-                    Account account = Account.findAccount(accountName, Server.allOfAccount);
-                    this.account = account;
-                    Server.loginedAccount.add(account);
-                }
+                login(strings);
             } else if (strings[0].equals(GOTO_ALL_USERS)) //ShowAllAccounts
             {
-                String send = "";
-                for (int i = 0; i < Server.allOfAccount.size(); i++) {
-                    send = send + Server.allOfAccount.get(i).getUsername() + ",";
-                }
-                dos.writeUTF(send);
+                goToAllUsers();
             } else if (strings[0].equals(LOGINED_USER)) { //LogindUser
-                if (this.account == null) {
-                    dos.writeUTF("NO USER LOGINED");
-                } else {
-                    String send = this.account.getUsername();
-                    dos.writeUTF(send);
-                }
+                loginedUser();
             }
         }
+    }
+
+    private void loginedUser() throws IOException {
+        if (this.account == null) {
+            dos.writeUTF("NO USER LOGINED");
+        } else {
+            String send = this.account.getUsername();
+            dos.writeUTF(send);
+        }
+    }
+
+    private void goToAllUsers() throws IOException {
+        String send = "";
+        for (int i = 0; i < Server.allOfAccount.size(); i++) {
+            send = send + Server.allOfAccount.get(i).getUsername() + ",";
+        }
+        dos.writeUTF(send);
+    }
+
+    private void login(String[] strings) throws IOException {
+        String accountName = strings[1];
+        String password = strings[2];
+        String sendMessage = "";
+        if (!Account.accountExist(accountName, Server.allOfAccount)) {
+            sendMessage = ACCOUNT_NOT_EXIST_EXCEPTION_PROMPT;
+        } else if (Account.isAccountPasswordRight(accountName, password, Server.allOfAccount)) {
+            Account account = Account.findAccount(accountName, Server.allOfAccount);
+            this.account = account;
+            Server.loginedAccount.add(account);
+            sendMessage = DONE;
+        } else {
+            sendMessage = INVALID_PASSWORD_EXCEPTION_PROMPT;
+        }
+        dos.writeUTF(sendMessage);
+    }
+
+    private void signUp(String[] strings) throws IOException {
+        String accountName = strings[1];
+        String password = strings[2];
+
+        String sendMessage = "";
+        if (!Account.accountExist(accountName, Server.allOfAccount)) {
+
+            Account account = new Account(accountName, password);
+            Server.allOfAccount.add(account);
+            sendMessage = DONE;
+        } else {
+            sendMessage = ACCOUNT_EXIST_EXCEPTION_PROMPT;
+        }
+        dos.writeUTF(sendMessage);
+
     }
 
 }

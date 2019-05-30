@@ -40,6 +40,10 @@ public class Account {
         return null;
     }
 
+    public static boolean accountExist(String username , ArrayList<Account> accounts)
+    {
+        return findAccount(username, accounts) != null;
+    }
 
     public int getHighscore() {
         return highscore;
