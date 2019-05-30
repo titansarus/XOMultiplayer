@@ -13,6 +13,8 @@ import java.util.ArrayList;
 public class Server {
     public static long lastUID = 1;
 
+    public static long gameUID = 1;
+
     public static Server server = new Server();
    public static ArrayList<Account> allOfAccount = new ArrayList<>();
 

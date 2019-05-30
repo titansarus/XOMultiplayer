@@ -53,6 +53,7 @@ public class LoginController {
         Timeline timeline = new Timeline(new KeyFrame(Duration.ZERO, event -> {
             try {
                 updateLoginedUser();
+                checkIsSummoned();
             } catch (IOException e) {
 
             }
@@ -70,6 +71,14 @@ public class LoginController {
 
         loginedUser_lbl.setText(user);
     }
+    public void checkIsSummoned() throws IOException{
+        Client.dos.writeUTF(SUMMONED);
+
+        String summoned = Client.dis.readUTF();
+
+        System.out.println(summoned);
+    }
+
 
     public void handleListOfUsersButton() {
         Pane root = null;

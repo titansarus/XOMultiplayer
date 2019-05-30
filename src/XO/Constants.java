@@ -1,7 +1,8 @@
 package XO;
 
 public class Constants {
-    public static final String SIGNUP = "1", LOGIN = "2", GOTO_ALL_USERS = "3", LOGINED_USER = "4", QUIT = "5", ENTER_GAME = "6";
+    public static final String SIGNUP = "1", LOGIN = "2", GOTO_ALL_USERS = "3", LOGINED_USER = "4", QUIT = "5", ENTER_GAME = "6" , SUMMONED = "7"
+            ,GIVE_MY_GAMEINFO = "8";
 
     public static final String DONE = "DONE", ACCOUNT_EXIST_EXCEPTION_PROMPT = "ACCOUNT_EXIST_EXCEPTION",
             INVALID_PASSWORD_EXCEPTION_PROMPT = "INVALID_PASSWORD_EXCEPTION",
@@ -17,5 +18,5 @@ public class Constants {
             INVALID_ROW_COL_NUMBER = "You must enter A valid Row or Column Number";
 
 
-    public static final String NO_USER_LOGINED = "NO USER LOGINED";
+    public static final String NO_USER_LOGINED = "NO USER LOGINED" , SUMMONED_TO_GAME = "SUMMONED" , NOT_SUMMONED_TO_GAME = "NOT_SUMMONED";
 }

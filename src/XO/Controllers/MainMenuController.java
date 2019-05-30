@@ -26,6 +26,7 @@ public class MainMenuController {
         Timeline timeline = new Timeline(new KeyFrame(Duration.ZERO, event -> {
             try {
                 updateLoginedUser();
+                checkIsSummoned();
             } catch (IOException e) {
 
             }
@@ -41,6 +42,21 @@ public class MainMenuController {
         String user = Client.dis.readUTF();
 
         loginedUser_lbl.setText(user);
+
+
+    }
+    public void checkIsSummoned() throws IOException{
+        Client.dos.writeUTF(SUMMONED);
+
+        String summoned = Client.dis.readUTF();
+
+        if (summoned.equals(SUMMONED_TO_GAME))
+        {
+            String sendMessage2 = GIVE_MY_GAMEINFO;
+            Client.dos.writeUTF(sendMessage2);
+            String[] strings = Client.dis.readUTF().split(" ");
+            new Container().enterGame(Integer.parseInt(strings[0]),Integer.parseInt(strings[1]));
+        }
     }
 
 
@@ -70,6 +86,13 @@ public class MainMenuController {
         if (!recievedMessage.equals(DONE)) {
             Container.ExceptionGenerator(recievedMessage);
         }
+//        else
+//        {
+//            String sendMessage2 = GIVE_MY_GAMEINFO;
+//            Client.dos.writeUTF(sendMessage2);
+//            String[] strings = Client.dis.readUTF().split(" ");
+//            new Container().enterGame(Integer.parseInt(strings[0]),Integer.parseInt(strings[1]));
+//        }
 
     }
 
