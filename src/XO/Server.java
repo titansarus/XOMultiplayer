@@ -1,6 +1,7 @@
 package XO;
 
 import XO.Model.Account;
+import XO.Model.Game;
 
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
@@ -17,7 +18,14 @@ public class Server {
 
    public static ArrayList<Account> loginedAccount = new ArrayList<>();
 
+   public static ArrayList<Account> playingAccount = new ArrayList<>();
+
    public static ArrayList<ClientHandler> clientHandlers = new ArrayList<>();
+
+   public static ArrayList<Game> runningGames = new ArrayList<>();
+
+   public static ArrayList<Game> pausedGames = new ArrayList<>();
+
 
     public static void main(String[] args) throws Exception {
         ServerSocket serverSocket = new ServerSocket(55555);

@@ -1,6 +1,7 @@
 package XO.Controllers;
 
 import XO.Client;
+import XO.Constants;
 import javafx.animation.Animation;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
@@ -12,8 +13,7 @@ import javafx.util.Duration;
 import java.io.IOException;
 import java.util.Optional;
 
-import static XO.Constants.LOGINED_USER;
-import static XO.Constants.QUIT;
+import static XO.Constants.*;
 
 public class MainMenuController {
 
@@ -57,16 +57,37 @@ public class MainMenuController {
         System.exit(0);
     }
 
-    public void handleBtnPlayGame() {
+    public void handleBtnPlayGame() throws IOException {
 
         int row = gettingNumberOfRowsFromUser();
         int column = gettingNumberOfColumnsFromUser();
-
+        String anotherUsername = gettingAnotherPlayerAccountUsername();
         System.out.println(row);
         System.out.println(column);
+        String sendMessage = ENTER_GAME + " " + anotherUsername + " " + row + " " + column;
+        Client.dos.writeUTF(sendMessage);
+        String recievedMessage = Client.dis.readUTF();
+        if (!recievedMessage.equals(DONE)) {
+            Container.ExceptionGenerator(recievedMessage);
+        }
 
     }
 
+
+    private String gettingAnotherPlayerAccountUsername() {
+        String s = "NO USER NAME";
+        TextInputDialog textInputDialog = new TextInputDialog();
+        textInputDialog.setTitle("Another Player UserName");
+        textInputDialog.setHeaderText("Please Enter UserName of another Player");
+        textInputDialog.setContentText("Username");
+        Optional<String> result = textInputDialog.showAndWait();
+        if (result.isPresent()) {
+            s = result.get();
+
+        }
+
+        return s;
+    }
 
     private int gettingNumberOfRowsFromUser() {
         int n = 3;
@@ -78,7 +99,8 @@ public class MainMenuController {
         if (result.isPresent()) {
 
             //TODO CHECK IF USER INPUTS VALID NUMBER;
-                n = Integer.parseInt(result.get());
+            //TODO DUPLICATE
+            n = Integer.parseInt(result.get());
 
         }
 
@@ -95,13 +117,13 @@ public class MainMenuController {
         if (result.isPresent()) {
 
             //TODO CHECK IF USER INPUTS VALID NUMBER;
+            //TODO DUPLICATE
             n = Integer.parseInt(result.get());
 
         }
 
         return n;
     }
-
 
 
     public void handleBack() {

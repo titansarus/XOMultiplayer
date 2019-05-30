@@ -51,6 +51,22 @@ public class ClientHandler implements Runnable {
                 loginedUser();
             } else if (strings[0].equals(QUIT)) {
                 quit(strings[1]);
+            } else if (strings[0].equals(ENTER_GAME)) {
+                String username = strings[1];
+                int row = Integer.parseInt(strings[2]);
+                int column = Integer.parseInt(strings[3]);
+                String sendMessage = "";
+
+                if (!Account.accountExist(username, Server.allOfAccount)) {
+                    sendMessage = ACCOUNT_NOT_EXIST_EXCEPTION_PROMPT;
+                } else if (row < 3 || row > 10 || column < 3 || column > 10) {
+                    sendMessage = INVALID_ROW_COL_NUMBER_PROMPT;
+                } else {
+                    sendMessage = DONE;
+                }
+
+                dos.writeUTF(sendMessage);
+
             }
         }
     }

@@ -33,6 +33,10 @@ public class Container {
         {
             alertShower(new UserAlreadyLoginedException() , "User Already Logined");
         }
+        if (msg.equals(INVALID_ROW_COL_NUMBER_PROMPT))
+        {
+            alertShower(new InvalidRowColNumberException() , "Invalid Row or Column Number");
+        }
     }
 
     public static void alertShower(Exception e, String title) {
