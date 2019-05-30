@@ -5,9 +5,11 @@ import java.util.ArrayList;
 
 public class Account {
 
-    private int highscore = 0;
     private String username;
     private String password;
+
+    private int wins =0;
+    private int loses =0;
 
     public Account(String username, String password) {
         this.username = username;
@@ -56,13 +58,6 @@ public class Account {
         }
     }
 
-    public int getHighscore() {
-        return highscore;
-    }
-
-    public void setHighscore(int highscore) {
-        this.highscore = highscore;
-    }
 
     public String getUsername() {
         return username;
@@ -78,5 +73,31 @@ public class Account {
 
     public void setPassword(String password) {
         this.password = password;
+    }
+
+    public void incrementWins()
+    {
+        setWins(getWins()+1);
+    }
+
+    public void incrementLoses()
+    {
+        setLoses(getLoses()+1);
+    }
+
+    public int getWins() {
+        return wins;
+    }
+
+    public void setWins(int wins) {
+        this.wins = wins;
+    }
+
+    public int getLoses() {
+        return loses;
+    }
+
+    public void setLoses(int loses) {
+        this.loses = loses;
     }
 }

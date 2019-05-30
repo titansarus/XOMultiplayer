@@ -6,9 +6,11 @@ import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
+import javafx.scene.control.TextInputDialog;
 import javafx.util.Duration;
 
 import java.io.IOException;
+import java.util.Optional;
 
 import static XO.Constants.LOGINED_USER;
 import static XO.Constants.QUIT;
@@ -54,6 +56,52 @@ public class MainMenuController {
         }
         System.exit(0);
     }
+
+    public void handleBtnPlayGame() {
+
+        int row = gettingNumberOfRowsFromUser();
+        int column = gettingNumberOfColumnsFromUser();
+
+        System.out.println(row);
+        System.out.println(column);
+
+    }
+
+
+    private int gettingNumberOfRowsFromUser() {
+        int n = 3;
+        TextInputDialog textInputDialog = new TextInputDialog();
+        textInputDialog.setTitle("Size of Board");
+        textInputDialog.setHeaderText("Please Enter a number between 3 to 10. Default is 3");
+        textInputDialog.setContentText("Board Size Rows (n):");
+        Optional<String> result = textInputDialog.showAndWait();
+        if (result.isPresent()) {
+
+            //TODO CHECK IF USER INPUTS VALID NUMBER;
+                n = Integer.parseInt(result.get());
+
+        }
+
+        return n;
+    }
+
+    private int gettingNumberOfColumnsFromUser() {
+        int n = 3;
+        TextInputDialog textInputDialog = new TextInputDialog();
+        textInputDialog.setTitle("Size of Board");
+        textInputDialog.setHeaderText("Please Enter a number between 3 to 10. Default is 3");
+        textInputDialog.setContentText("Board Size Columns (n):");
+        Optional<String> result = textInputDialog.showAndWait();
+        if (result.isPresent()) {
+
+            //TODO CHECK IF USER INPUTS VALID NUMBER;
+            n = Integer.parseInt(result.get());
+
+        }
+
+        return n;
+    }
+
 
 
     public void handleBack() {
