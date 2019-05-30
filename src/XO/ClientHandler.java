@@ -94,6 +94,9 @@ public class ClientHandler implements Runnable {
         String sendMessage = "";
 
         if (!Account.accountExist(username, Server.allOfAccount)) {
+            //TODO CHECK IF PLAYER IS PLAYING WITH ANOTHER ONE
+            //TODO CHECK IF PLAYER IS PLAYING WITH ANOTHER ONE
+            //TODO WHEN PLAYER IS PLAYING, HE MUST BE ADDED TO THE PLAYINGACCOUNTS
             sendMessage = ACCOUNT_NOT_EXIST_EXCEPTION_PROMPT;
         } else if (row < 3 || row > 10 || column < 3 || column > 10) {
             sendMessage = INVALID_ROW_COL_NUMBER_PROMPT;
