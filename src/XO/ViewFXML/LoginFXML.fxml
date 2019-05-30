@@ -15,5 +15,7 @@
       <Label layoutX="154.0" layoutY="179.0" text="Username" />
       <Label layoutX="154.0" layoutY="238.0" text="Password" />
       <PasswordField fx:id="password_tf" layoutX="227.0" layoutY="234.0" promptText="Password" />
+      <Button fx:id="listOfUsers_btn" layoutX="227.0" layoutY="455.0" mnemonicParsing="false" onAction="#handleListOfUsersButton" text="List of Users" />
+      <Label fx:id="loginedUser_lbl" layoutX="270.0" layoutY="14.0" prefHeight="17.0" prefWidth="212.0" />
    </children>
 </AnchorPane>
