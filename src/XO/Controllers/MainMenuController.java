@@ -1,7 +1,6 @@
 package XO.Controllers;
 
 import XO.Client;
-import XO.Constants;
 import javafx.animation.Animation;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
@@ -52,7 +51,7 @@ public class MainMenuController {
 
         if (summoned.equals(SUMMONED_TO_GAME))
         {
-            String sendMessage2 = GIVE_MY_GAMEINFO;
+            String sendMessage2 = GIVE_INITIAL_MY_GAMEINFO;
             Client.dos.writeUTF(sendMessage2);
             String[] strings = Client.dis.readUTF().split(" ");
             new Container().enterGame(Integer.parseInt(strings[0]),Integer.parseInt(strings[1]));
@@ -88,7 +87,7 @@ public class MainMenuController {
         }
 //        else
 //        {
-//            String sendMessage2 = GIVE_MY_GAMEINFO;
+//            String sendMessage2 = GIVE_INITIAL_MY_GAMEINFO;
 //            Client.dos.writeUTF(sendMessage2);
 //            String[] strings = Client.dis.readUTF().split(" ");
 //            new Container().enterGame(Integer.parseInt(strings[0]),Integer.parseInt(strings[1]));

@@ -9,9 +9,10 @@ public class Game {
     private int column;
     private int[][] grid;
     private long UID;
+    private int turn = 0;
 
 
-    public Game(Account player1, Account player2, int row, int column , long UID) {
+    public Game(Account player1, Account player2, int row, int column, long UID) {
         this.player1 = player1;
         this.player2 = player2;
         this.row = row;
@@ -20,12 +21,9 @@ public class Game {
         this.UID = UID;
     }
 
-    public static Game findGameByUID(long UID , ArrayList<Game> games)
-    {
-        for (int i =0;i<games.size();i++)
-        {
-            if(games.get(i)!=null && games.get(i).getUID()==UID)
-            {
+    public static Game findGameByUID(long UID, ArrayList<Game> games) {
+        for (int i = 0; i < games.size(); i++) {
+            if (games.get(i) != null && games.get(i).getUID() == UID) {
                 return games.get(i);
             }
         }
@@ -78,5 +76,20 @@ public class Game {
 
     public void setUID(long UID) {
         this.UID = UID;
+    }
+
+    public Account getTurnAccount() {
+        if (turn % 2 == 0) {
+            return player1;
+        }
+        return player2;
+    }
+
+    public int getTurn() {
+        return turn;
+    }
+
+    public void setTurn(int turn) {
+        this.turn = turn;
     }
 }

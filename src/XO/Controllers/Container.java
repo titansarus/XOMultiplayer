@@ -47,7 +47,7 @@ public class Container {
         alert.show();
     }
 
-    public void enterGame(int row, int column) {
+    public void enterGame(int row, int column) throws IOException {
         Pane root = null;
         FXMLLoader fxmlLoader = null;
         try {
@@ -66,6 +66,8 @@ public class Container {
         controller.row = row;
         controller.column = column;
         controller.blockMaker();
+        controller.updateLoginedUser();
+        controller.updateGameBoard();
 
         root.getChildren().addAll(controller.blocks);
         root.getChildren().addAll(controller.blockTexts);

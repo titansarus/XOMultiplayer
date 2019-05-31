@@ -62,18 +62,46 @@ public class ClientHandler implements Runnable {
             {
                 summonCheck();
             }
-            else if (strings[0].equals(GIVE_MY_GAMEINFO))
+            else if (strings[0].equals(GIVE_INITIAL_MY_GAMEINFO))
+            {
+                giveInitialGameInfo();
+            }
+            else if (strings[0].equals(GIVE_COMPLETE_GAME_INFO))
             {
                 long uid = summonedGameUID;
                 Game game = Game.findGameByUID(uid,Server.runningGames);
                 String out = "";
-                if (game!=null) {
-                    out = game.getRow() + " " + game.getColumn();
-                    this.isSummonedToGame=false;
+                if (game!=null)
+                {
+                    out = game.getRow() + " " +game.getColumn();
+                    out = out+ " " + game.getPlayer1().getUsername() + " " + game.getPlayer2().getUsername();
+                    out = out + " " + game.getTurnAccount().getUsername() + " , ";
+                    for (int i =0;i<game.getRow();i++)
+                    {
+                        for (int j =0;j<game.getColumn();j++)
+                        {
+                           out =  out + game.getGrid()[i][j] + " ";
+                        }
+                    }
+                    dos.writeUTF(out);
                 }
-                dos.writeUTF(out);
+                else
+                {
+                    dos.writeUTF(NO_GAME);
+                }
             }
         }
+    }
+
+    private void giveInitialGameInfo() throws IOException {
+        long uid = summonedGameUID;
+        Game game = Game.findGameByUID(uid, Server.runningGames);
+        String out = NO_GAME;
+        if (game!=null) {
+            out = game.getRow() + " " + game.getColumn();
+            this.isSummonedToGame=false;
+        }
+        dos.writeUTF(out);
     }
 
     private void summonCheck() throws IOException {
