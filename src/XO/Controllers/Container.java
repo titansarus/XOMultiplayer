@@ -44,6 +44,9 @@ public class Container {
         if (msg.equals(NOT_YOUR_TURN_PROMPT)) {
             alertShower(new NotYourTurnException(), "Not Your Turn");
         }
+        if (msg.equals(OTHER_PLAYER_IS_PLAYING_PROMPT)) {
+            alertShower(new OtherPlayerIsPlayingException(), "Other Player Playing");
+        }
     }
 
     public static void alertShower(Exception e, String title) {
@@ -53,8 +56,7 @@ public class Container {
         alert.show();
     }
 
-    public static void notificationShower(String context , String title)
-    {
+    public static void notificationShower(String context, String title) {
         Alert alert = new Alert(Alert.AlertType.INFORMATION, context);
         alert.setTitle(title);
         alert.setHeaderText(title);
@@ -85,8 +87,8 @@ public class Container {
         controller.timeLineGen();
 
         root.getChildren().addAll(controller.blocks);
-     //   root.getChildren().addAll(controller.blockTexts);
-     //   root.getChildren().addAll(controller.blockTexts);
+        //   root.getChildren().addAll(controller.blockTexts);
+        //   root.getChildren().addAll(controller.blockTexts);
 
         Container.stage.show();
     }
