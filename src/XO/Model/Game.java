@@ -16,6 +16,7 @@ public class Game {
     private int turn = 0;
 
 
+
     public Game(Account player1, Account player2, int row, int column, long UID) {
         this.player1 = player1;
         this.player2 = player2;
@@ -60,6 +61,103 @@ public class Game {
         addMove(i, j, turn);
 
         changeTurn();
+    }
+
+
+    public Account findWinner() {
+        int winner = -1;
+        if (getRow() == 3 || getColumn() == 3) {
+            winner = winCheck3();
+        } else {
+            winner = winCheck4();
+        }
+        if (winner == 1) {
+            return player1;
+        } else if (winner == 2) {
+            return player2;
+        }
+        return null;
+    }
+
+    private int winCheck4() {
+        int[][] grid = this.getGrid();
+        int numberOfRows = this.getRow();
+        int numberOfColumns = this.getColumn();
+        for (int i = 0; i < numberOfRows; i++) {
+            for (int j = 0; j < numberOfColumns; j++) {
+                if (i + 3 < numberOfRows) {
+                    if (grid[i][j] == 1 && grid[i + 1][j] == 1 && grid[i + 2][j] == 1 && grid[i + 3][j] == 1) {
+                        return 1;
+                    } else if (grid[i][j] == 2 && grid[i + 1][j] == 2 && grid[i + 2][j] == 2 && grid[i + 3][j] == 2) {
+                        return 2;
+                    }
+                }
+                if (j + 3 < numberOfColumns) {
+                    if (grid[i][j] == 1 && grid[i][j + 1] == 1 && grid[i][j + 2] == 1 && grid[i][j + 3] == 1) {
+                        return 1;
+                    } else if (grid[i][j] == 2 && grid[i][j + 1] == 2 && grid[i][j + 2] == 2 && grid[i][j + 3] == 2) {
+                        return 2;
+                    }
+                }
+                if (i + 3 < numberOfRows && j + 3 < numberOfColumns) {
+                    if (grid[i][j] == 1 && grid[i + 1][j + 1] == 1 && grid[i + 2][j + 2] == 1 && grid[i + 3][j + 3] == 1) {
+                        return 1;
+                    } else if (grid[i][j] == 2 && grid[i + 1][j + 1] == 2 && grid[i + 2][j + 2] == 2 && grid[i + 3][j + 3] == 2) {
+                        return 2;
+                    }
+                }
+                if (i + 3 < numberOfRows && j - 3 >= 0) {
+                    if (grid[i][j] == 1 && grid[i + 1][j - 1] == 1 && grid[i + 2][j - 2] == 1 && grid[i + 3][j - 3] == 1) {
+                        return 1;
+                    } else if (grid[i][j] == 2 && grid[i + 1][j - 1] == 2 && grid[i + 2][j - 2] == 2 && grid[i + 3][j - 3] == 2) {
+                        return 2;
+                    }
+                }
+            }
+        }
+
+        return -1;
+    }
+
+    private int winCheck3() {
+        int[][] grid = this.getGrid();
+        int numberOfRows = this.getRow();
+        int numberOfColumns = this.getColumn();
+
+        for (int i = 0; i < numberOfRows; i++) {
+            for (int j = 0; j < numberOfColumns; j++) {
+                if (i + 2 < numberOfRows) {
+                    if (grid[i][j] == 1 && grid[i + 1][j] == 1 && grid[i + 2][j] == 1) {
+                        return 1;
+                    } else if (grid[i][j] == 2 && grid[i + 1][j] == 2 && grid[i + 2][j] == 2) {
+                        return 2;
+                    }
+                }
+                if (j + 2 < numberOfColumns) {
+                    if (grid[i][j] == 1 && grid[i][j + 1] == 1 && grid[i][j + 2] == 1) {
+                        return 1;
+                    } else if (grid[i][j] == 2 && grid[i][j + 1] == 2 && grid[i][j + 2] == 2) {
+                        return 2;
+                    }
+                }
+                if (i + 2 < numberOfRows && j + 2 < numberOfColumns) {
+                    if (grid[i][j] == 1 && grid[i + 1][j + 1] == 1 && grid[i + 2][j + 2] == 1) {
+                        return 1;
+                    } else if (grid[i][j] == 2 && grid[i + 1][j + 1] == 2 && grid[i + 2][j + 2] == 2) {
+                        return 2;
+                    }
+                }
+                if (i + 2 < numberOfRows && j - 2 >= 0) {
+                    if (grid[i][j] == 1 && grid[i + 1][j - 1] == 1 && grid[i + 2][j - 2] == 1) {
+                        return 1;
+                    } else if (grid[i][j] == 2 && grid[i + 1][j - 1] == 2 && grid[i + 2][j - 2] == 2) {
+                        return 2;
+                    }
+                }
+            }
+        }
+
+        return -1;
     }
 
 

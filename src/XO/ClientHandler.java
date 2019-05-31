@@ -67,9 +67,31 @@ public class ClientHandler implements Runnable {
                 insert(strings);
             } else if (strings[0].equals(UNDO)) {
                 undo();
-
+            } else if (strings[0].equals(WIN_CHECK)) {
+                winCheck();
             }
         }
+    }
+
+    private void winCheck() throws IOException {
+        long uid = summonedGameUID;
+        Game game = Game.findGameByUID(uid, Server.runningGames);
+        String out = NO_WINNER;
+        if (game!=null) {
+            Account account = game.findWinner();
+            if (account != null) {
+                if (account.getUsername().equals(this.account.getUsername())) {
+                    out = YOU_WIN;
+                    account.incrementWins();
+                    summonedGameUID = 0;
+                } else {
+                    out = YOU_LOSE;
+                    account.incrementLoses();
+                    summonedGameUID = 0;
+                }
+            }
+        }
+        dos.writeUTF(out);
     }
 
     private void undo() throws IOException {

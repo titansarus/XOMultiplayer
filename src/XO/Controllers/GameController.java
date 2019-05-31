@@ -17,6 +17,7 @@ import javafx.scene.paint.Paint;
 import javafx.scene.shape.Rectangle;
 import javafx.scene.text.Font;
 import javafx.util.Duration;
+import sun.misc.Cleaner;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -47,8 +48,52 @@ public class GameController {
 
     ArrayList<Rectangle> blocks = new ArrayList<>();
     ArrayList<Label> blockTexts = new ArrayList<>();
+    Timeline timeline;
+
+    public void handleBack() {
+        if (Container.scenes.size() > 0) {
+            Container.scenes.removeLast();
+            Container.stage.setScene(Container.scenes.getLast());
+            Container.stage.show();
+        }
+
+
+    }
+
+    public void timeLineGen() {
+        timeline = new Timeline(new KeyFrame(Duration.ZERO, event -> {
+            try {
+                updateGameBoard();
+                checkIfGameEnded();
+            } catch (IOException e) {
+
+            }
+        }), new KeyFrame(Duration.millis(1378)));
+        timeline.setCycleCount(Animation.INDEFINITE);
+        timeline.play();
+    }
+
+    public void checkIfGameEnded() throws IOException {
+        String sendMessage = WIN_CHECK;
+        Client.dos.writeUTF(sendMessage);
+        String output = Client.dis.readUTF();
+        if (!output.equals(NO_WINNER)) {
+            if (output.equals(YOU_WIN)) {
+                Container.notificationShower(CONGRATS_YOU_WIN + "Winner: " + loginedUser_lbl.getText(), CONGRATS_YOU_WIN);
+            } else if (output.equals(YOU_LOSE)) {
+                Container.notificationShower(SORRY_YOU_LOSE + "Loser: "+loginedUser_lbl.getText() , SORRY_YOU_LOSE);
+            }
+            timeLineStopper();
+            handleBack();
+        }
+    }
+
+    public void timeLineStopper() {
+        timeline.stop();
+    }
 
     public int row;
+
     public int column;
 
     public void handleBtnUndo() throws IOException {
@@ -84,18 +129,6 @@ public class GameController {
     public void initialize() {
 
 
-    }
-
-    public void timeLineGen() {
-        Timeline timeline = new Timeline(new KeyFrame(Duration.ZERO, event -> {
-            try {
-                updateGameBoard();
-            } catch (IOException e) {
-
-            }
-        }), new KeyFrame(Duration.millis(1378)));
-        timeline.setCycleCount(Animation.INDEFINITE);
-        timeline.play();
     }
 
     public void insert(int i, int j) throws IOException {//TODO CHECK FOR WIN
@@ -160,6 +193,7 @@ public class GameController {
             ;
         }
         blockPainter(board);
+
 
     }
 

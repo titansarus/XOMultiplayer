@@ -53,6 +53,14 @@ public class Container {
         alert.show();
     }
 
+    public static void notificationShower(String context , String title)
+    {
+        Alert alert = new Alert(Alert.AlertType.INFORMATION, context);
+        alert.setTitle(title);
+        alert.setHeaderText(title);
+        alert.show();
+    }
+
     public void enterGame(int row, int column) throws IOException {
         Pane root = null;
         FXMLLoader fxmlLoader = null;
