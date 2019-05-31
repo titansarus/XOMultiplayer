@@ -80,19 +80,17 @@ public class ClientHandler implements Runnable {
                 checkPaused();
             } else if (strings[0].equals(LIST_OF_PAUSED_GAMES)) {
                 listOfPausedGames(strings[1]);
-            }
-            else if (strings[0].equals(RESUME))
-            {
+            } else if (strings[0].equals(RESUME)) {
                 Long uid = Long.parseLong(strings[1]);
-                Game game = Game.findGameByUID(uid,Server.pausedGames);
+                Game game = Game.findGameByUID(uid, Server.pausedGames);
                 String user1 = strings[2];
                 String user2 = strings[3];
                 ClientHandler c1 = findClientHandler(user1);
                 ClientHandler c2 = findClientHandler(user2);
-                c1.isSummonedToGame=true;
-                c1.summonedGameUID=uid;
-                c2.isSummonedToGame=true;
-                c2.summonedGameUID=uid;
+                c1.isSummonedToGame = true;
+                c1.summonedGameUID = uid;
+                c2.isSummonedToGame = true;
+                c2.summonedGameUID = uid;
                 Server.pausedGames.remove(game);
 
             }
@@ -194,11 +192,15 @@ public class ClientHandler implements Runnable {
             if (account != null) {
                 if (account.getUsername().equals(this.account.getUsername())) {
                     out = YOU_WIN;
-                    account.incrementWins();
+                  //  account.incrementWins();
                     summonedGameUID = 0;
+                } else if (account.equals(Game.drawAccount)) {
+                   // account.incrementDraws();
+                    summonedGameUID = 0;
+                    out = DRAW;
                 } else {
                     out = YOU_LOSE;
-                    account.incrementLoses();
+                  //  account.incrementLoses();
                     summonedGameUID = 0;
                 }
             }

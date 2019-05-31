@@ -1,23 +1,17 @@
 package XO.Controllers;
 
 import XO.Client;
-import XO.Constants;
-import XO.Exceptions.NotYourTurnException;
-import XO.Model.Game;
 import javafx.animation.Animation;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
 import javafx.event.EventHandler;
-import javafx.event.EventType;
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.paint.Color;
-import javafx.scene.paint.Paint;
 import javafx.scene.shape.Rectangle;
 import javafx.scene.text.Font;
 import javafx.util.Duration;
-import sun.misc.Cleaner;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -83,6 +77,8 @@ public class GameController {
                 Container.notificationShower(CONGRATS_YOU_WIN + "Winner: " + loginedUser_lbl.getText(), CONGRATS_YOU_WIN);
             } else if (receivedMessage.equals(YOU_LOSE)) {
                 Container.notificationShower(SORRY_YOU_LOSE + "Loser: " + loginedUser_lbl.getText(), SORRY_YOU_LOSE);
+            } else if (receivedMessage.equals(DRAW)) {
+                Container.notificationShower(YOU_DRAW, YOU_DRAW);
             }
             timeLineStopper();
             handleBack();
@@ -204,7 +200,7 @@ public class GameController {
 
         for (int i = 0; i < row; i++) {
             for (int j = 0; j < column; j++) {
-                System.out.printf("%s ", board[i * row + j]);
+                System.out.printf("%s ", board[i * column + j]);
             }
             System.out.println();
             ;
@@ -217,7 +213,7 @@ public class GameController {
     void blockPainter(String[] board) {
         for (int i = 0; i < row; i++) {
             for (int j = 0; j < column; j++) {
-                blocks.get(i * row + j).setFill(colorSelector(board[i * row + j]));
+                blocks.get(i * column + j).setFill(colorSelector(board[i * column + j]));
 
             }
         }
@@ -246,8 +242,8 @@ public class GameController {
                 Label label = new Label();
                 label.setFont(Font.font(15));
                 label.setTextFill(Color.WHITE);
-                label.relocate(beginX + j *stepOfMove , beginY+i*stepOfMove);
-                label.setText(String.valueOf(i*row+j));
+                label.relocate(beginX + j * stepOfMove, beginY + i * stepOfMove);
+                label.setText(String.valueOf(i * row + j));
 
                 rectangle.setFill(Color.BLACK);
                 rectangle.setOnMouseClicked(new EventHandler<MouseEvent>() {
@@ -256,7 +252,7 @@ public class GameController {
                         int i = findNumberOfRcetangle(rectangle);
                         if (i != -1) {
                             try {
-                                insert(i / row, i % column);
+                                insert(i / column, i % column);
                             } catch (IOException e) {
                                 e.printStackTrace();
                             }

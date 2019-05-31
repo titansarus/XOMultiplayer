@@ -7,6 +7,7 @@ public class Game {
     private Account player2;
     private boolean isPlayer1Undoed = false;
     private boolean isPlayer2Undoed = false;
+    private boolean isWinnerDetemined = false;
 
     ArrayList<Move> moves = new ArrayList<>();
     private int row;
@@ -15,6 +16,7 @@ public class Game {
     private long UID;
     private int turn = 0;
 
+    public static Account drawAccount = new Account("draw" , "draw");
 
 
     public Game(Account player1, Account player2, int row, int column, long UID) {
@@ -26,13 +28,10 @@ public class Game {
         this.UID = UID;
     }
 
-    public static ArrayList<Game> findListOfPausedGames(String username , ArrayList<Game> games)
-    {
+    public static ArrayList<Game> findListOfPausedGames(String username, ArrayList<Game> games) {
         ArrayList<Game> result = new ArrayList<>();
-        if (games!=null && username!=null && username.length()>0)
-        {
-            for (int i =0;i<games.size();i++)
-            {
+        if (games != null && username != null && username.length() > 0) {
+            for (int i = 0; i < games.size(); i++) {
                 Game game = games.get(i);
                 if (game != null && (game.player1.getUsername().equals(username) || game.player2.getUsername().equals(username))) {
                     result.add(game);
@@ -63,6 +62,22 @@ public class Game {
         }
     }
 
+    public boolean isCompletelyFilled() {
+        boolean isFilled = true;
+        for (int i = 0; i < row; i++) {
+            for (int j = 0; j < column; j++) {
+             if (grid[i][j]==0)
+             {
+                 isFilled = false;
+                 return isFilled;
+             }
+            }
+        }
+        return isFilled;
+
+    }
+
+
     public boolean isUndoable() {
         return (turn % 2 == 0 && !isPlayer2Undoed()) || (turn % 2 == 1 && !isPlayer1Undoed());
     }
@@ -88,9 +103,28 @@ public class Game {
             winner = winCheck4();
         }
         if (winner == 1) {
+            if (!isWinnerDetemined) {
+                player1.incrementWins();
+                player2.incrementLoses();
+                isWinnerDetemined=true;
+            }
             return player1;
         } else if (winner == 2) {
+            if (!isWinnerDetemined) {
+                player2.incrementWins();
+                player1.incrementLoses();
+                isWinnerDetemined=true;
+            }
             return player2;
+        }
+        if (winner == -1 && isCompletelyFilled())
+        {
+            if (!isWinnerDetemined) {
+                player1.incrementDraws();
+                player2.incrementDraws();
+                isWinnerDetemined=true;
+            }
+            return drawAccount;
         }
         return null;
     }

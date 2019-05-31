@@ -23,10 +23,10 @@ public class Constants {
             INVALID_ROW_COL_NUMBER = "You must enter A valid Row or Column Number",
             NOT_YOUR_TURN = "It is not your turn",
             INVALID_UNDO = "You Can't Undo",
-            CONGRATS_YOU_WIN = "Congratulations! You WIN!", SORRY_YOU_LOSE = "Sorry! You LOSE!",
+            CONGRATS_YOU_WIN = "Congratulations! You WIN!", SORRY_YOU_LOSE = "Sorry! You LOSE!", YOU_DRAW = "Draw! No one Won!" ,
             GAME_PAUSED_NOTIFICATION = "Game has been Paused";
 
 
     public static final String NO_USER_LOGINED = "NO USER LOGINED", SUMMONED_TO_GAME = "SUMMONED", NOT_SUMMONED_TO_GAME = "NOT_SUMMONED", NO_GAME = "NO_GAME", NO_WINNER = "NO_WINNER",
-            YOU_WIN = "YOU_WIN", YOU_LOSE = "YOU_LOSE";
+            YOU_WIN = "YOU_WIN", YOU_LOSE = "YOU_LOSE" , DRAW = "DRAW";
 }
