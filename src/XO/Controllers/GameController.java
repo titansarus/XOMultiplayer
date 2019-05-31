@@ -216,7 +216,7 @@ public class GameController {
 
     void blockPainter(String[] board) {
         for (int i = 0; i < row; i++) {
-            for (int j = 0; j < row; j++) {
+            for (int j = 0; j < column; j++) {
                 blocks.get(i * row + j).setFill(colorSelector(board[i * row + j]));
 
             }
@@ -245,6 +245,9 @@ public class GameController {
                 rectangle.relocate(beginX + j * stepOfMove, beginY + i * stepOfMove);
                 Label label = new Label();
                 label.setFont(Font.font(15));
+                label.setTextFill(Color.WHITE);
+                label.relocate(beginX + j *stepOfMove , beginY+i*stepOfMove);
+                label.setText(String.valueOf(i*row+j));
 
                 rectangle.setFill(Color.BLACK);
                 rectangle.setOnMouseClicked(new EventHandler<MouseEvent>() {
@@ -262,8 +265,8 @@ public class GameController {
                     }
                 });
 
-                label.relocate(rectangle.getLayoutX() + rectangleDim / 2.5, rectangle.getLayoutY() + rectangleDim / 2.5);
-                label.setText("");
+//                label.relocate(rectangle.getLayoutX() + rectangleDim / 2.5, rectangle.getLayoutY() + rectangleDim / 2.5);
+//                label.setText("");
                 blockTexts.add(label);
                 blocks.add(rectangle);
             }

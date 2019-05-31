@@ -79,23 +79,74 @@ public class ClientHandler implements Runnable {
             } else if (strings[0].equals(CHECK_PAUSED)) {
                 checkPaused();
             } else if (strings[0].equals(LIST_OF_PAUSED_GAMES)) {
-                String username = strings[1];
-                ArrayList<Game> games = Game.findListOfPausedGames(username, Server.pausedGames);
-                StringBuilder sb = new StringBuilder();
-                for (int i = 0; i < games.size(); i++) {
-                    Game game = games.get(i);
-                    if (game != null) {
-                        sb.append(game.getUID()).append(" ")
-                                .append(game.getPlayer1().getUsername()).append(" ").append(game.getPlayer2().getUsername())
-                                .append(" ").append(game.getRow()).append(" ").append(game.getColumn()).append(" , ");
-                    }
-                }
-                dos.writeUTF(sb.toString());
+                listOfPausedGames(strings[1]);
+            }
+            else if (strings[0].equals(RESUME))
+            {
+                Long uid = Long.parseLong(strings[1]);
+                Game game = Game.findGameByUID(uid,Server.pausedGames);
+                String user1 = strings[2];
+                String user2 = strings[3];
+                ClientHandler c1 = findClientHandler(user1);
+                ClientHandler c2 = findClientHandler(user2);
+                c1.isSummonedToGame=true;
+                c1.summonedGameUID=uid;
+                c2.isSummonedToGame=true;
+                c2.summonedGameUID=uid;
+                Server.pausedGames.remove(game);
 
             }
 
 
         }
+    }
+
+    private void enterGame(String[] strings) throws IOException {
+        String username = strings[1];
+        int row = Integer.parseInt(strings[2]);
+        int column = Integer.parseInt(strings[3]);
+        String sendMessage = "";
+
+        if (!Account.accountExist(username, Server.allOfAccount)) {
+            //TODO CHECK IF PLAYER IS PLAYING WITH ANOTHER ONE
+            //TODO CHECK IF PLAYER IS PLAYING WITH ANOTHER ONE
+            //TODO WHEN PLAYER IS PLAYING, HE MUST BE ADDED TO THE PLAYINGACCOUNTS
+            sendMessage = ACCOUNT_NOT_EXIST_EXCEPTION_PROMPT;
+        } else if (row < 3 || row > 10 || column < 3 || column > 10) {
+            sendMessage = INVALID_ROW_COL_NUMBER_PROMPT;
+        } else {
+            sendMessage = DONE;
+        }
+
+        dos.writeUTF(sendMessage);
+
+        if (sendMessage.equals(DONE)) {
+            ClientHandler clientHandler = findClientHandler(username);
+            if (clientHandler != null) {
+                this.isSummonedToGame = true;
+                this.summonedGameUID = Server.gameUID;
+                clientHandler.isSummonedToGame = true;
+                clientHandler.summonedGameUID = Server.gameUID;
+                Game game = new Game(this.account, Account.findAccount(username, Server.loginedAccount), row, column, Server.gameUID++);
+                Server.runningGames.add(game);
+            }
+
+        }
+    }
+
+    private void listOfPausedGames(String string) throws IOException {
+        String username = string;
+        ArrayList<Game> games = Game.findListOfPausedGames(username, Server.pausedGames);
+        StringBuilder sb = new StringBuilder();
+        for (int i = 0; i < games.size(); i++) {
+            Game game = games.get(i);
+            if (game != null) {
+                sb.append(game.getUID()).append(" ")
+                        .append(game.getPlayer1().getUsername()).append(" ").append(game.getPlayer2().getUsername())
+                        .append(" ").append(game.getRow()).append(" ").append(game.getColumn()).append(" , ");
+            }
+        }
+        dos.writeUTF(sb.toString());
     }
 
     private void checkPaused() throws IOException {
@@ -229,39 +280,6 @@ public class ClientHandler implements Runnable {
             dos.writeUTF(SUMMONED_TO_GAME);
         } else {
             dos.writeUTF(NOT_SUMMONED_TO_GAME);
-        }
-    }
-
-    private void enterGame(String[] strings) throws IOException {
-        String username = strings[1];
-        int row = Integer.parseInt(strings[2]);
-        int column = Integer.parseInt(strings[3]);
-        String sendMessage = "";
-
-        if (!Account.accountExist(username, Server.allOfAccount)) {
-            //TODO CHECK IF PLAYER IS PLAYING WITH ANOTHER ONE
-            //TODO CHECK IF PLAYER IS PLAYING WITH ANOTHER ONE
-            //TODO WHEN PLAYER IS PLAYING, HE MUST BE ADDED TO THE PLAYINGACCOUNTS
-            sendMessage = ACCOUNT_NOT_EXIST_EXCEPTION_PROMPT;
-        } else if (row < 3 || row > 10 || column < 3 || column > 10) {
-            sendMessage = INVALID_ROW_COL_NUMBER_PROMPT;
-        } else {
-            sendMessage = DONE;
-        }
-
-        dos.writeUTF(sendMessage);
-
-        if (sendMessage.equals(DONE)) {
-            ClientHandler clientHandler = findClientHandler(username);
-            if (clientHandler != null) {
-                this.isSummonedToGame = true;
-                this.summonedGameUID = Server.gameUID;
-                clientHandler.isSummonedToGame = true;
-                clientHandler.summonedGameUID = Server.gameUID;
-                Game game = new Game(this.account, Account.findAccount(username, Server.loginedAccount), row, column, Server.gameUID++);
-                Server.runningGames.add(game);
-            }
-
         }
     }
 

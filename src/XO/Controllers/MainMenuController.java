@@ -156,7 +156,8 @@ public class MainMenuController {
         Container.stage.setScene(Container.scenes.getLast());
         try {
             ((ResumeController) fxmlLoader.getController()).updateLoginedUser();
-            ((ResumeController) fxmlLoader.getController()).fillListView();
+            ((ResumeController) fxmlLoader.getController()).timeLineGen();
+
         } catch (IOException e) {
             e.printStackTrace();
         }

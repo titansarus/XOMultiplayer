@@ -1,6 +1,9 @@
 package XO.Controllers;
 
 import XO.Client;
+import javafx.animation.Animation;
+import javafx.animation.KeyFrame;
+import javafx.animation.Timeline;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.EventHandler;
@@ -9,13 +12,13 @@ import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
 import javafx.scene.control.cell.ComboBoxListCell;
 import javafx.scene.input.MouseEvent;
+import javafx.util.Duration;
 import sun.misc.Cleaner;
 
 
 import java.io.IOException;
 
-import static XO.Constants.LIST_OF_PAUSED_GAMES;
-import static XO.Constants.LOGINED_USER;
+import static XO.Constants.*;
 
 public class ResumeController {
 
@@ -24,6 +27,26 @@ public class ResumeController {
 
     @FXML
     ListView listOfGames_lv;
+
+
+    Timeline timeline;
+
+
+    public void timeLineGen() {
+        timeline = new Timeline(new KeyFrame(Duration.ZERO, event -> {
+            try {
+                fillListView();
+            } catch (IOException e) {
+
+            }
+        }), new KeyFrame(Duration.millis(2000)));
+        timeline.setCycleCount(Animation.INDEFINITE);
+        timeline.play();
+    }
+
+    public void timeLineStopper() {
+        timeline.stop();
+    }
 
     public static final ObservableList data =
             FXCollections.observableArrayList();
@@ -49,7 +72,11 @@ public class ResumeController {
 
             @Override
             public void handle(MouseEvent event) {
-                System.out.println("clicked on " + listOfGames_lv.getSelectionModel().getSelectedItem());
+                try {
+                    Client.dos.writeUTF(RESUME + " " + listOfGames_lv.getSelectionModel().getSelectedItem());
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
             }
         });
 
@@ -71,6 +98,7 @@ public class ResumeController {
             Container.scenes.removeLast();
             Container.stage.setScene(Container.scenes.getLast());
             Container.stage.show();
+            timeLineStopper();
         }
     }
 

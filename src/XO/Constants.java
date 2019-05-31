@@ -3,7 +3,7 @@ package XO;
 public class Constants {
     public static final String SIGNUP = "1", LOGIN = "2", GOTO_ALL_USERS = "3", LOGINED_USER = "4", QUIT = "5", ENTER_GAME = "6",
             SUMMONED = "7", GIVE_INITIAL_MY_GAMEINFO = "8", GIVE_COMPLETE_GAME_INFO = "9", INSERT = "10", UNDO = "11", WIN_CHECK = "12", GIVE_ALL_ACCOUNT_INFO = "13",
-            PAUSE = "14", CHECK_PAUSED = "15" , LIST_OF_PAUSED_GAMES = "16";
+            PAUSE = "14", CHECK_PAUSED = "15" , LIST_OF_PAUSED_GAMES = "16" , RESUME = "17";
 
     public static final String DONE = "DONE", ACCOUNT_EXIST_EXCEPTION_PROMPT = "ACCOUNT_EXIST_EXCEPTION",
             INVALID_PASSWORD_EXCEPTION_PROMPT = "INVALID_PASSWORD_EXCEPTION",

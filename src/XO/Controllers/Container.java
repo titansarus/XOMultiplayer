@@ -85,7 +85,8 @@ public class Container {
         controller.timeLineGen();
 
         root.getChildren().addAll(controller.blocks);
-        root.getChildren().addAll(controller.blockTexts);
+     //   root.getChildren().addAll(controller.blockTexts);
+     //   root.getChildren().addAll(controller.blockTexts);
 
         Container.stage.show();
     }
