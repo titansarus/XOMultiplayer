@@ -11,22 +11,22 @@ import java.net.Socket;
 import java.util.ArrayList;
 
 public class Server {
-    public static long lastUID = 1;
+    private static long lastUID = 1;
 
-    public static long gameUID = 1;
+    static long gameUID = 1;
 
-    public static Server server = new Server();
-   public static ArrayList<Account> allOfAccount = new ArrayList<>();
+    private static Server server = new Server();
+   static ArrayList<Account> allOfAccount = new ArrayList<>();
 
-   public static ArrayList<Account> loginedAccount = new ArrayList<>();
+   static ArrayList<Account> loginedAccount = new ArrayList<>();
 
    public static ArrayList<Account> playingAccount = new ArrayList<>();
 
-   public static ArrayList<ClientHandler> clientHandlers = new ArrayList<>();
+   static ArrayList<ClientHandler> clientHandlers = new ArrayList<>();
 
-   public static ArrayList<Game> runningGames = new ArrayList<>();
+   static ArrayList<Game> runningGames = new ArrayList<>();
 
-   public static ArrayList<Game> pausedGames = new ArrayList<>();
+   static ArrayList<Game> pausedGames = new ArrayList<>();
 
 
     public static void main(String[] args) throws Exception {

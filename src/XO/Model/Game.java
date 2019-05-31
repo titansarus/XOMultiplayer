@@ -9,7 +9,7 @@ public class Game {
     private boolean isPlayer2Undoed = false;
     private boolean isWinnerDetemined = false;
 
-    ArrayList<Move> moves = new ArrayList<>();
+    private ArrayList<Move> moves = new ArrayList<>();
     private int row;
     private int column;
     private int[][] grid;
@@ -287,15 +287,15 @@ public class Game {
         return turn;
     }
 
-    public void setTurn(int turn) {
+    private void setTurn(int turn) {
         this.turn = turn;
     }
 
-    public boolean isPlayer1Undoed() {
+    private boolean isPlayer1Undoed() {
         return isPlayer1Undoed;
     }
 
-    public boolean isPlayer2Undoed() {
+    private boolean isPlayer2Undoed() {
         return isPlayer2Undoed;
     }
 }

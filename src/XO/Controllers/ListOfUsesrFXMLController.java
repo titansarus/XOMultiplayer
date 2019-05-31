@@ -23,14 +23,7 @@ public class ListOfUsesrFXMLController {
         Client.dos.writeUTF(s);
         String ss = Client.dis.readUTF();
         String[] users = ss.split(",");
-        data.clear();
-
-        for (int i =0;i<users.length;i++)
-        {
-            data.add(users[i]);
-        }
-        users_lv.setItems(data);
-        users_lv.setCellFactory(ComboBoxListCell.forListView(data));
+        ResumeController.setListViewToString(users, data, users_lv);
 
     }
 

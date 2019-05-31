@@ -68,7 +68,7 @@ public class Account {
         this.username = username;
     }
 
-    public String getPassword() {
+    private String getPassword() {
         return password;
     }
 
@@ -76,17 +76,17 @@ public class Account {
         this.password = password;
     }
 
-    public void incrementWins()
+    void incrementWins()
     {
         setWins(getWins()+1);
     }
 
-    public void incrementLoses()
+    void incrementLoses()
     {
         setLoses(getLoses()+1);
     }
 
-    public void incrementDraws()
+    void incrementDraws()
     {
         setDraws(getDraws()+1);
     }
@@ -95,7 +95,7 @@ public class Account {
         return draws;
     }
 
-    public void setDraws(int draws) {
+    private void setDraws(int draws) {
         this.draws = draws;
     }
 
@@ -103,7 +103,7 @@ public class Account {
         return wins;
     }
 
-    public void setWins(int wins) {
+    private void setWins(int wins) {
         this.wins = wins;
     }
 
@@ -111,7 +111,7 @@ public class Account {
         return loses;
     }
 
-    public void setLoses(int loses) {
+    private void setLoses(int loses) {
         this.loses = loses;
     }
 }

@@ -29,7 +29,7 @@ public class ResumeController {
     ListView listOfGames_lv;
 
 
-    Timeline timeline;
+    private Timeline timeline;
 
 
     public void timeLineGen() {
@@ -58,15 +58,7 @@ public class ResumeController {
 
         String[] games = result.split(" , ");
 
-        data.clear();
-
-
-        for (int i =0;i<games.length;i++)
-        {
-            data.add(games[i]);
-        }
-        listOfGames_lv.setItems(data);
-        listOfGames_lv.setCellFactory(ComboBoxListCell.forListView(data));
+        setListViewToString(games, data, listOfGames_lv);
 
         listOfGames_lv.setOnMouseClicked(new EventHandler<MouseEvent>() {
 
@@ -90,6 +82,18 @@ public class ResumeController {
     });
          */
 
+    }
+
+    static void setListViewToString(String[] games, ObservableList data, ListView listOfGames_lv) {
+        data.clear();
+
+
+        for (int i =0;i<games.length;i++)
+        {
+            data.add(games[i]);
+        }
+        listOfGames_lv.setItems(data);
+        listOfGames_lv.setCellFactory(ComboBoxListCell.forListView(data));
     }
 
 

@@ -41,10 +41,14 @@ public class GameController {
 
 
     ArrayList<Rectangle> blocks = new ArrayList<>();
-    ArrayList<Label> blockTexts = new ArrayList<>();
-    Timeline timeline;
+    private ArrayList<Label> blockTexts = new ArrayList<>();
+    private Timeline timeline;
 
-    public void handleBack() {
+    int row;
+
+    int column;
+
+    private void handleBack() {
         if (Container.scenes.size() > 0) {
             Container.scenes.removeLast();
             Container.stage.setScene(Container.scenes.getLast());
@@ -54,7 +58,7 @@ public class GameController {
 
     }
 
-    public void timeLineGen() {
+    void timeLineGen() {
         timeline = new Timeline(new KeyFrame(Duration.ZERO, event -> {
             try {
                 updateGameBoard();
@@ -69,7 +73,7 @@ public class GameController {
         timeline.play();
     }
 
-    public void checkIfGameEnded() throws IOException {
+    private void checkIfGameEnded() throws IOException {
         String sendMessage = WIN_CHECK;
         Client.dos.writeUTF(sendMessage);
         String receivedMessage = Client.dis.readUTF();
@@ -86,7 +90,7 @@ public class GameController {
         }
     }
 
-    public void checkIfGameStopped() throws IOException {
+    private void checkIfGameStopped() throws IOException {
         String sendMessage = IS_STOPPED;
         Client.dos.writeUTF(sendMessage);
         String receivedMessage = Client.dis.readUTF();
@@ -106,7 +110,7 @@ public class GameController {
         Client.dos.writeUTF(sendMessage);
     }
 
-    public void checkIfGamePuased() throws IOException {
+    private void checkIfGamePuased() throws IOException {
         String sendMessage = CHECK_PAUSED;
         Client.dos.writeUTF(sendMessage);
         String receivedMessage = Client.dis.readUTF();
@@ -117,13 +121,9 @@ public class GameController {
         }
     }
 
-    public void timeLineStopper() {
+    private void timeLineStopper() {
         timeline.stop();
     }
-
-    public int row;
-
-    public int column;
 
     public void handleBtnUndo() throws IOException {
         if (turn_lbl.getText().equals(loginedUser_lbl.getText())) {
@@ -140,7 +140,7 @@ public class GameController {
         }
     }
 
-    public int getFilledRectanglesCount() {
+    private int getFilledRectanglesCount() {
 
         int count = 0;
         for (int i = 0; i < blocks.size(); i++) {
@@ -160,7 +160,7 @@ public class GameController {
 
     }
 
-    public void insert(int i, int j) throws IOException {//TODO CHECK FOR WIN
+    private void insert(int i, int j) throws IOException {//TODO CHECK FOR WIN
 
         if (!turn_lbl.getText().equals(loginedUser_lbl.getText())) {
             Container.ExceptionGenerator(NOT_YOUR_TURN_PROMPT);
@@ -177,7 +177,7 @@ public class GameController {
 
     }
 
-    public void updateLoginedUser() throws IOException {
+    void updateLoginedUser() throws IOException {
         Client.dos.writeUTF(LOGINED_USER);
 
         String user = Client.dis.readUTF();
@@ -185,7 +185,7 @@ public class GameController {
         loginedUser_lbl.setText(user);
     }
 
-    public void updateGameBoard() throws IOException {
+    void updateGameBoard() throws IOException {
 
         Client.dos.writeUTF(GIVE_COMPLETE_GAME_INFO);
 
@@ -226,7 +226,7 @@ public class GameController {
 
     }
 
-    void blockPainter(String[] board) {
+    private void blockPainter(String[] board) {
         for (int i = 0; i < row; i++) {
             for (int j = 0; j < column; j++) {
                 blocks.get(i * column + j).setFill(colorSelector(board[i * column + j]));
@@ -235,7 +235,7 @@ public class GameController {
         }
     }
 
-    Color colorSelector(String string) {
+    private Color colorSelector(String string) {
         if (string.equals("1")) {
             return Color.BLUEVIOLET;
         } else if (string.equals("2")) {
@@ -286,7 +286,7 @@ public class GameController {
 
     }
 
-    public int findNumberOfRcetangle(Rectangle rectangle) {
+    private int findNumberOfRcetangle(Rectangle rectangle) {
         for (int i = 0; i < blocks.size(); i++) {
             if (blocks.get(i) == rectangle) {
                 return i;

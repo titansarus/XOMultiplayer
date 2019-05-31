@@ -5,17 +5,17 @@ public class Move {
     private int column;
     private int turn;
 
-    public Move(int row, int column, int turn) {
+    Move(int row, int column, int turn) {
         this.row = row;
         this.column = column;
         this.turn = turn;
     }
 
-    public int getRow() {
+    int getRow() {
         return row;
     }
 
-    public int getColumn() {
+    int getColumn() {
         return column;
     }
 

@@ -14,21 +14,19 @@ import static XO.Constants.*;
 
 public class ClientHandler implements Runnable {
 
-    public DataOutputStream dos;
-    public DataInputStream dis;
-    public Server server;
+    private DataOutputStream dos;
+    private DataInputStream dis;
     public long UID;
-    public Account account = null;
-    public boolean isQuit = false;
-    public boolean isSummonedToGame = false;
-    public long summonedGameUID = 0;
-    public boolean isRunnigGamePaused = false;
-    public boolean isStopped = false;
+    private Account account = null;
+    private boolean isQuit = false;
+    private boolean isSummonedToGame = false;
+    private long summonedGameUID = 0;
+    private boolean isRunnigGamePaused = false;
+    private boolean isStopped = false;
 
     public ClientHandler(DataOutputStream dos, DataInputStream dis, Server server, Socket socket, long UID) {
         this.dos = dos;
         this.dis = dis;
-        this.server = server;
     }
 
 
@@ -38,70 +36,90 @@ public class ClientHandler implements Runnable {
             try {
                 String s = dis.readUTF();
                 handleInput(s);
-            } catch (IOException e) {
+            } catch (IOException ignore) {
             }
 
         }
 
     }
 
-    public void handleInput(String s) throws IOException {
+    private void handleInput(String s) throws IOException {
         String[] strings = s.split("\\s");
         if (strings.length >= 1) {
-            if (strings[0].equals(SIGNUP)) { //Signup
-                signUp(strings);
-            } else if (strings[0].equals(LOGIN)) { //Login
-                login(strings);
-            } else if (strings[0].equals(GOTO_ALL_USERS)) //ShowAllAccounts
-            {
-                goToAllUsers();
-            } else if (strings[0].equals(LOGINED_USER)) { //LogindUser
-                loginedUser();
-            } else if (strings[0].equals(QUIT)) {
-                quit(strings[1]);
-            } else if (strings[0].equals(ENTER_GAME)) {
-                enterGame(strings);
-            } else if (strings[0].equals(SUMMONED)) {
-                summonCheck();
-            } else if (strings[0].equals(GIVE_INITIAL_MY_GAMEINFO)) {
-                giveInitialGameInfo();
-            } else if (strings[0].equals(GIVE_COMPLETE_GAME_INFO)) {
-                completeGameInfo();
-            } else if (strings[0].equals(INSERT)) {
-                insert(strings);
-            } else if (strings[0].equals(UNDO)) {
-                undo();
-            } else if (strings[0].equals(WIN_CHECK)) {
-                winCheck();
-            } else if (strings[0].equals(GIVE_ALL_ACCOUNT_INFO)) {
-                giveAllAccountsInfo();
-            } else if (strings[0].equals(PAUSE)) {
-                pause();
-            } else if (strings[0].equals(CHECK_PAUSED)) {
-                checkPaused();
-            } else if (strings[0].equals(LIST_OF_PAUSED_GAMES)) {
-                listOfPausedGames(strings[1]);
-            } else if (strings[0].equals(RESUME)) {
-                resume(strings);
+            switch (strings[0]) {
+                case SIGNUP:
+                    signUp(strings);
+                    break;
+                case LOGIN:
+                    login(strings);
+                    break;
+                case GOTO_ALL_USERS:
 
-            } else if (strings[0].equals(STOP_GAME)) {
-                long uid = summonedGameUID;
-                Game game = Game.findGameByUID(uid, Server.runningGames);
-                ClientHandler c1 = findClientHandler(game.getPlayer1().getUsername());
-                ClientHandler c2 = findClientHandler(game.getPlayer2().getUsername());
+                    goToAllUsers();
+                    break;
+                case LOGINED_USER:
+                    loginedUser();
+                    break;
+                case QUIT:
+                    quit(strings[1]);
+                    break;
+                case ENTER_GAME:
+                    enterGame(strings);
+                    break;
+                case SUMMONED:
+                    summonCheck();
+                    break;
+                case GIVE_INITIAL_MY_GAMEINFO:
+                    giveInitialGameInfo();
+                    break;
+                case GIVE_COMPLETE_GAME_INFO:
+                    completeGameInfo();
+                    break;
+                case INSERT:
+                    insert(strings);
+                    break;
+                case UNDO:
+                    undo();
+                    break;
+                case WIN_CHECK:
+                    winCheck();
+                    break;
+                case GIVE_ALL_ACCOUNT_INFO:
+                    giveAllAccountsInfo();
+                    break;
+                case PAUSE:
+                    pause();
+                    break;
+                case CHECK_PAUSED:
+                    checkPaused();
+                    break;
+                case LIST_OF_PAUSED_GAMES:
+                    listOfPausedGames(strings[1]);
+                    break;
+                case RESUME:
+                    resume(strings);
 
-                c1.isStopped = true;
-                c2.isStopped = true;
+                    break;
+                case STOP_GAME:
+                    long uid = summonedGameUID;
+                    Game game = Game.findGameByUID(uid, Server.runningGames);
+                    ClientHandler c1 = findClientHandler(game.getPlayer1().getUsername());
+                    ClientHandler c2 = findClientHandler(game.getPlayer2().getUsername());
+
+                    c1.isStopped = true;
+                    c2.isStopped = true;
 
 
-                Server.runningGames.remove(game);
-            } else if (strings[0].equals(IS_STOPPED)) {
-                String out = NOT_STOP;
-                if (isStopped) {
-                    out = YES_STOP;
-                    isStopped = false;
-                }
-                dos.writeUTF(out);
+                    Server.runningGames.remove(game);
+                    break;
+                case IS_STOPPED:
+                    String out = NOT_STOP;
+                    if (isStopped) {
+                        out = YES_STOP;
+                        isStopped = false;
+                    }
+                    dos.writeUTF(out);
+                    break;
             }
 
 
@@ -370,7 +388,7 @@ public class ClientHandler implements Runnable {
 
     }
 
-    public static ClientHandler findClientHandler(String username) {
+    private static ClientHandler findClientHandler(String username) {
         for (int i = 0; i < Server.clientHandlers.size(); i++) {
             ClientHandler clientHandler = Server.clientHandlers.get(i);
             if (clientHandler != null && clientHandler.account != null && clientHandler.account.getUsername().equals(username)) {

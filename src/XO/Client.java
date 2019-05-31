@@ -38,7 +38,6 @@ public class Client extends Application {
 
     public static void main(String[] args) throws Exception {
         Socket socket = new Socket("localhost",55555);
-        socket = socket;
         dis = new DataInputStream(socket.getInputStream());
         dos = new DataOutputStream(socket.getOutputStream());
 

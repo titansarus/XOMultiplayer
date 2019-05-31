@@ -19,55 +19,56 @@ public class Container {
     public static Stage stage = new Stage();
     public static Deque<Scene> scenes = new LinkedList<>();
 
-    public static void ExceptionGenerator(String msg) {
-        if (msg.equals(ACCOUNT_EXIST_EXCEPTION_PROMPT)) {
-            alertShower(new AccountExistException(), "Account Exists");
-        }
-        if (msg.equals(INVALID_PASSWORD_EXCEPTION_PROMPT)) {
-            alertShower(new InvalidPasswordException(), "Invalid Password");
-        }
-        if (msg.equals(ACCOUNT_NOT_EXIST_EXCEPTION_PROMPT)) {
-            alertShower(new NoAccountExistException(), "Account Not Exists");
-        }
-        if (msg.equals(NO_USER_LOGINED)) {
-            alertShower(new NoUserLoginedException(), "No User Logined");
-        }
-        if (msg.equals(USER_ALREADY_LOGINED_PROMPT)) {
-            alertShower(new UserAlreadyLoginedException(), "User Already Logined");
-        }
-        if (msg.equals(INVALID_ROW_COL_NUMBER_PROMPT)) {
-            alertShower(new InvalidRowColNumberException(), "Invalid Row or Column Number");
-        }
-        if (msg.equals(INVALID_UNDO_PROMPT)) {
-            alertShower(new InvalidUndoException(), "Invalid Undo");
-        }
-        if (msg.equals(NOT_YOUR_TURN_PROMPT)) {
-            alertShower(new NotYourTurnException(), "Not Your Turn");
-        }
-        if (msg.equals(OTHER_PLAYER_IS_PLAYING_PROMPT)) {
-            alertShower(new OtherPlayerIsPlayingException(), "Other Player Playing");
-        }
-        if (msg.equals(YOU_CANT_PLAY_WITH_YOURSELF_PROMPT))
-        {
-            alertShower(new YouCantPlayWithYourselftException() , "You Can't Play XO With Yourself");
+    static void ExceptionGenerator(String msg) {
+        switch (msg) {
+            case ACCOUNT_EXIST_EXCEPTION_PROMPT:
+                alertShower(new AccountExistException(), "Account Exists");
+                break;
+            case INVALID_PASSWORD_EXCEPTION_PROMPT:
+                alertShower(new InvalidPasswordException(), "Invalid Password");
+                break;
+            case ACCOUNT_NOT_EXIST_EXCEPTION_PROMPT:
+                alertShower(new NoAccountExistException(), "Account Not Exists");
+                break;
+            case NO_USER_LOGINED:
+                alertShower(new NoUserLoginedException(), "No User Logined");
+                break;
+            case USER_ALREADY_LOGINED_PROMPT:
+                alertShower(new UserAlreadyLoginedException(), "User Already Logined");
+                break;
+            case INVALID_ROW_COL_NUMBER_PROMPT:
+                alertShower(new InvalidRowColNumberException(), "Invalid Row or Column Number");
+                break;
+            case INVALID_UNDO_PROMPT:
+                alertShower(new InvalidUndoException(), "Invalid Undo");
+                break;
+            case NOT_YOUR_TURN_PROMPT:
+                alertShower(new NotYourTurnException(), "Not Your Turn");
+                break;
+            case OTHER_PLAYER_IS_PLAYING_PROMPT:
+                alertShower(new OtherPlayerIsPlayingException(), "Other Player Playing");
+                break;
+            case YOU_CANT_PLAY_WITH_YOURSELF_PROMPT:
+                alertShower(new YouCantPlayWithYourselftException(), "You Can't Play XO With Yourself");
+                break;
         }
     }
 
-    public static void alertShower(Exception e, String title) {
+    private static void alertShower(Exception e, String title) {
         Alert alert = new Alert(Alert.AlertType.ERROR, e.getMessage());
         alert.setTitle(title);
         alert.setHeaderText(title);
         alert.show();
     }
 
-    public static void notificationShower(String context, String title) {
+    static void notificationShower(String context, String title) {
         Alert alert = new Alert(Alert.AlertType.INFORMATION, context);
         alert.setTitle(title);
         alert.setHeaderText(title);
         alert.show();
     }
 
-    public void enterGame(int row, int column) throws IOException {
+    void enterGame(int row, int column) throws IOException {
         Pane root = null;
         FXMLLoader fxmlLoader = null;
         try {
