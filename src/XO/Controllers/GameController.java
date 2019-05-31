@@ -60,6 +60,7 @@ public class GameController {
                 updateGameBoard();
                 checkIfGameEnded();
                 checkIfGamePuased();
+                checkIfGameStopped();
             } catch (IOException e) {
 
             }
@@ -83,6 +84,21 @@ public class GameController {
             timeLineStopper();
             handleBack();
         }
+    }
+
+    public void checkIfGameStopped() throws IOException {
+        String sendMessage = IS_STOPPED;
+        Client.dos.writeUTF(sendMessage);
+        String receivedMessage = Client.dis.readUTF();
+        if (receivedMessage.equals(YES_STOP)) {
+            timeLineStopper();
+            handleBack();
+        }
+    }
+
+    public void handleBtnStop() throws IOException {
+        String sendMessage = STOP_GAME;
+        Client.dos.writeUTF(sendMessage);
     }
 
     public void handleBtnPause() throws IOException {

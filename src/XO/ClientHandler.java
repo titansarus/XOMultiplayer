@@ -23,6 +23,7 @@ public class ClientHandler implements Runnable {
     public boolean isSummonedToGame = false;
     public long summonedGameUID = 0;
     public boolean isRunnigGamePaused = false;
+    public boolean isStopped = false;
 
     public ClientHandler(DataOutputStream dos, DataInputStream dis, Server server, Socket socket, long UID) {
         this.dos = dos;
@@ -83,6 +84,24 @@ public class ClientHandler implements Runnable {
             } else if (strings[0].equals(RESUME)) {
                 resume(strings);
 
+            } else if (strings[0].equals(STOP_GAME)) {
+                long uid = summonedGameUID;
+                Game game = Game.findGameByUID(uid, Server.runningGames);
+                ClientHandler c1 = findClientHandler(game.getPlayer1().getUsername());
+                ClientHandler c2 = findClientHandler(game.getPlayer2().getUsername());
+
+                c1.isStopped = true;
+                c2.isStopped = true;
+
+
+                Server.runningGames.remove(game);
+            } else if (strings[0].equals(IS_STOPPED)) {
+                String out = NOT_STOP;
+                if (isStopped) {
+                    out = YES_STOP;
+                    isStopped = false;
+                }
+                dos.writeUTF(out);
             }
 
 
@@ -111,9 +130,7 @@ public class ClientHandler implements Runnable {
         ClientHandler c = ClientHandler.findClientHandler(username);
 
         if (!Account.accountExist(username, Server.allOfAccount)) {
-            //TODO CHECK IF PLAYER IS PLAYING WITH ANOTHER ONE
-            //TODO CHECK IF PLAYER IS PLAYING WITH ANOTHER ONE
-            //TODO WHEN PLAYER IS PLAYING, HE MUST BE ADDED TO THE PLAYINGACCOUNTS
+
             sendMessage = ACCOUNT_NOT_EXIST_EXCEPTION_PROMPT;
         } else if (row < 3 || row > 10 || column < 3 || column > 10) {
             sendMessage = INVALID_ROW_COL_NUMBER_PROMPT;
