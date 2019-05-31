@@ -65,6 +65,7 @@ public class GameController {
             try {
                 updateGameBoard();
                 checkIfGameEnded();
+                checkIfGamePuased();
             } catch (IOException e) {
 
             }
@@ -76,13 +77,29 @@ public class GameController {
     public void checkIfGameEnded() throws IOException {
         String sendMessage = WIN_CHECK;
         Client.dos.writeUTF(sendMessage);
-        String output = Client.dis.readUTF();
-        if (!output.equals(NO_WINNER)) {
-            if (output.equals(YOU_WIN)) {
+        String receivedMessage = Client.dis.readUTF();
+        if (!receivedMessage.equals(NO_WINNER)) {
+            if (receivedMessage.equals(YOU_WIN)) {
                 Container.notificationShower(CONGRATS_YOU_WIN + "Winner: " + loginedUser_lbl.getText(), CONGRATS_YOU_WIN);
-            } else if (output.equals(YOU_LOSE)) {
-                Container.notificationShower(SORRY_YOU_LOSE + "Loser: "+loginedUser_lbl.getText() , SORRY_YOU_LOSE);
+            } else if (receivedMessage.equals(YOU_LOSE)) {
+                Container.notificationShower(SORRY_YOU_LOSE + "Loser: " + loginedUser_lbl.getText(), SORRY_YOU_LOSE);
             }
+            timeLineStopper();
+            handleBack();
+        }
+    }
+
+    public void handleBtnPause() throws IOException {
+        String sendMessage = PAUSE;
+        Client.dos.writeUTF(sendMessage);
+    }
+
+    public void checkIfGamePuased() throws IOException {
+        String sendMessage = CHECK_PAUSED;
+        Client.dos.writeUTF(sendMessage);
+        String receivedMessage = Client.dis.readUTF();
+        if (receivedMessage.equals(YES_PAUSED)) {
+            Container.notificationShower(GAME_PAUSED_NOTIFICATION, GAME_PAUSED_NOTIFICATION);
             timeLineStopper();
             handleBack();
         }

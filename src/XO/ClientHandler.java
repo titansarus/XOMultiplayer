@@ -2,6 +2,7 @@ package XO;
 
 import XO.Model.Account;
 import XO.Model.Game;
+import org.omg.CORBA.PUBLIC_MEMBER;
 
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
@@ -20,6 +21,7 @@ public class ClientHandler implements Runnable {
     public boolean isQuit = false;
     public boolean isSummonedToGame = false;
     public long summonedGameUID = 0;
+    public boolean isRunnigGamePaused=false;
 
     public ClientHandler(DataOutputStream dos, DataInputStream dis, Server server, Socket socket, long UID) {
         this.dos = dos;
@@ -72,7 +74,39 @@ public class ClientHandler implements Runnable {
             } else if (strings[0].equals(GIVE_ALL_ACCOUNT_INFO)) {
                 giveAllAccountsInfo();
             }
+            else if (strings[0].equals(PAUSE))
+            {
+                pause();
+            }
+            else if (strings[0].equals(CHECK_PAUSED))
+            {
+                String out = NOT_PAUSED;
+                if (isRunnigGamePaused)
+                {
+                    out=YES_PAUSED;
+                    isRunnigGamePaused = false;
+                    summonedGameUID= 0;
+                }
+                dos.writeUTF(out);
+            }
+
+
         }
+    }
+
+    private void pause() {
+        long uid = summonedGameUID;
+        Game game = Game.findGameByUID(uid, Server.runningGames);
+
+        ClientHandler c1 = findClientHandler(game.getPlayer1().getUsername());
+        ClientHandler c2 = findClientHandler(game.getPlayer2().getUsername());
+        if (c1!=null) {
+            c1.isRunnigGamePaused=true;
+        }
+        if (c2!=null) {
+            c2.isRunnigGamePaused=true;
+        }
+        Server.pausedGames.add(game);
     }
 
     private void giveAllAccountsInfo() throws IOException {

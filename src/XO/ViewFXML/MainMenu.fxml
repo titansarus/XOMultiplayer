@@ -9,7 +9,9 @@
       <Button layoutX="14.0" layoutY="361.0" mnemonicParsing="false" onAction="#handleBack" text="Back" />
       <Button layoutX="240.0" layoutY="54.0" mnemonicParsing="false" onAction="#handleBtnPlayGame" prefHeight="46.0" prefWidth="120.0" text="Play Game" />
       <Button fx:id="leaderboard_btn" layoutX="240.0" layoutY="139.0" mnemonicParsing="false" onAction="#handleBtnLeaderboard" prefHeight="46.0" prefWidth="120.0" text="Leaderboard" />
-      <Button layoutX="240.0" layoutY="228.0" mnemonicParsing="false" onAction="#handeBtnQuit" prefHeight="46.0" prefWidth="120.0" text="Quit" />
+      <Button layoutX="240.0" layoutY="299.0" mnemonicParsing="false" onAction="#handeBtnQuit" prefHeight="46.0" prefWidth="120.0" text="Quit" />
       <Label fx:id="loginedUser_lbl" layoutX="374.0" layoutY="14.0" prefHeight="17.0" prefWidth="212.0" />
+      <Label layoutX="277.0" layoutY="14.0" prefHeight="17.0" prefWidth="83.0" text="Logined User:" />
+      <Button fx:id="resumeBtn" layoutX="240.0" layoutY="220.0" mnemonicParsing="false" prefHeight="46.0" prefWidth="120.0" text="Quit" />
    </children>
 </AnchorPane>
