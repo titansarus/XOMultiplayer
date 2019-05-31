@@ -17,5 +17,6 @@
         <Button fx:id="listOfUsers_btn" layoutX="114.0" layoutY="455.0" mnemonicParsing="false" onAction="#handleListOfUsersButton" text="List of Users" />
         <Label fx:id="loginedUser_lbl" layoutX="270.0" layoutY="14.0" prefHeight="17.0" prefWidth="212.0" />
       <Button fx:id="mainMenu_btn" layoutX="350.0" layoutY="455.0" mnemonicParsing="false" onAction="#handleBtnMainMenu" text="MainMenu" />
+      <Label layoutX="177.0" layoutY="14.0" prefHeight="17.0" prefWidth="83.0" text="Logined User:" />
     </children>
 </AnchorPane>

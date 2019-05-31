@@ -10,6 +10,7 @@ public class Account {
 
     private int wins =0;
     private int loses =0;
+    private int draws = 0;
 
     public Account(String username, String password) {
         this.username = username;
@@ -83,6 +84,19 @@ public class Account {
     public void incrementLoses()
     {
         setLoses(getLoses()+1);
+    }
+
+    public void incrementDraws()
+    {
+        setDraws(getDraws()+1);
+    }
+
+    public int getDraws() {
+        return draws;
+    }
+
+    public void setDraws(int draws) {
+        this.draws = draws;
     }
 
     public int getWins() {

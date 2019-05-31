@@ -4,12 +4,11 @@
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.layout.AnchorPane?>
 
-
 <AnchorPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="XO.Controllers.MainMenuController">
    <children>
       <Button layoutX="14.0" layoutY="361.0" mnemonicParsing="false" onAction="#handleBack" text="Back" />
       <Button layoutX="240.0" layoutY="54.0" mnemonicParsing="false" onAction="#handleBtnPlayGame" prefHeight="46.0" prefWidth="120.0" text="Play Game" />
-      <Button layoutX="240.0" layoutY="139.0" mnemonicParsing="false" prefHeight="46.0" prefWidth="120.0" text="Leaderboard" />
+      <Button fx:id="leaderboard_btn" layoutX="240.0" layoutY="139.0" mnemonicParsing="false" onAction="#handleBtnLeaderboard" prefHeight="46.0" prefWidth="120.0" text="Leaderboard" />
       <Button layoutX="240.0" layoutY="228.0" mnemonicParsing="false" onAction="#handeBtnQuit" prefHeight="46.0" prefWidth="120.0" text="Quit" />
       <Label fx:id="loginedUser_lbl" layoutX="374.0" layoutY="14.0" prefHeight="17.0" prefWidth="212.0" />
    </children>

@@ -5,8 +5,11 @@ import javafx.animation.Animation;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Scene;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextInputDialog;
+import javafx.scene.layout.Pane;
 import javafx.util.Duration;
 
 import java.io.IOException;
@@ -70,6 +73,30 @@ public class MainMenuController {
             e.printStackTrace();
         }
         System.exit(0);
+    }
+
+    public void handleBtnLeaderboard()
+    {
+        Pane root = null;
+        FXMLLoader fxmlLoader = null;
+        try {
+            fxmlLoader = new FXMLLoader(getClass().getResource("/XO/ViewFXML/Leaderboard.fxml"));
+            root = fxmlLoader.load();
+            int i = 0;
+            System.out.println(i);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        Scene scene = new Scene(root);
+        Container.scenes.addLast(scene);
+        Container.stage.setScene(Container.scenes.getLast());
+        try {
+            ((LeaderboardFXMLController) fxmlLoader.getController()).updateLoginedUser();
+            ((LeaderboardFXMLController) fxmlLoader.getController()).leaderBoardMaker();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        Container.stage.show();
     }
 
     public void handleBtnPlayGame() throws IOException {

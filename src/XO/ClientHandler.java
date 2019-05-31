@@ -69,15 +69,28 @@ public class ClientHandler implements Runnable {
                 undo();
             } else if (strings[0].equals(WIN_CHECK)) {
                 winCheck();
+            } else if (strings[0].equals(GIVE_ALL_ACCOUNT_INFO)) {
+                giveAllAccountsInfo();
             }
         }
+    }
+
+    private void giveAllAccountsInfo() throws IOException {
+        StringBuilder sb = new StringBuilder();
+        for (int i = 0; i < Server.allOfAccount.size(); i++) {
+            Account account = Server.allOfAccount.get(i);
+            if (account != null) {
+                sb.append(account.getUsername()).append(" ").append(account.getWins()).append(" ").append(account.getLoses()).append(" ").append(account.getDraws()).append(" , ");
+            }
+        }
+        dos.writeUTF(sb.toString());
     }
 
     private void winCheck() throws IOException {
         long uid = summonedGameUID;
         Game game = Game.findGameByUID(uid, Server.runningGames);
         String out = NO_WINNER;
-        if (game!=null) {
+        if (game != null) {
             Account account = game.findWinner();
             if (account != null) {
                 if (account.getUsername().equals(this.account.getUsername())) {
