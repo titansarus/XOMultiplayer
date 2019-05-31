@@ -104,6 +104,11 @@ public class MainMenuController {
         int row = gettingNumberOfRowsFromUser();
         int column = gettingNumberOfColumnsFromUser();
         String anotherUsername = gettingAnotherPlayerAccountUsername();
+        if (anotherUsername.equals(loginedUser_lbl.getText()))
+        {
+            Container.ExceptionGenerator(YOU_CANT_PLAY_WITH_YOURSELF_PROMPT);
+            return;
+        }
         System.out.println(row);
         System.out.println(column);
         String sendMessage = ENTER_GAME + " " + anotherUsername + " " + row + " " + column;

@@ -14,7 +14,8 @@ public class Constants {
             INVALID_UNDO_PROMPT = "INVALID_UNDO_PROMPT",
             NOT_YOUR_TURN_PROMPT = "NOT_YOUR_TURN_PROMPT",
             NOT_PAUSED = "NOT_PAUSE", YES_PAUSED = "YES_PAUSED",
-            OTHER_PLAYER_IS_PLAYING_PROMPT = "OTHER_PLAYER_IS_PLAYING_PROMPT";
+            OTHER_PLAYER_IS_PLAYING_PROMPT = "OTHER_PLAYER_IS_PLAYING_PROMPT",
+            YOU_CANT_PLAY_WITH_YOURSELF_PROMPT = "YOU_CANT_PLAY_WITH_YOURSELF_PROMPT";
 
     public static final String ACCOUNT_EXIST = "An Account exists with this username.",
             INVALID_PASSWORD = "You entered a wrong password",
@@ -26,7 +27,8 @@ public class Constants {
             INVALID_UNDO = "You Can't Undo",
             CONGRATS_YOU_WIN = "Congratulations! You WIN!", SORRY_YOU_LOSE = "Sorry! You LOSE!", YOU_DRAW = "Draw! No one Won!",
             GAME_PAUSED_NOTIFICATION = "Game has been Paused",
-            OTHER_PLAYER_PLAYING = "Other Player is Playing with Another one.";
+            OTHER_PLAYER_PLAYING = "Other Player is Playing with Another one.",
+            YOU_CANT_PLAY_WITH_YOURSELF = "You can't play XO with yourself";
 
 
     public static final String NO_USER_LOGINED = "NO USER LOGINED", SUMMONED_TO_GAME = "SUMMONED", NOT_SUMMONED_TO_GAME = "NOT_SUMMONED", NO_GAME = "NO_GAME", NO_WINNER = "NO_WINNER",

@@ -47,6 +47,10 @@ public class Container {
         if (msg.equals(OTHER_PLAYER_IS_PLAYING_PROMPT)) {
             alertShower(new OtherPlayerIsPlayingException(), "Other Player Playing");
         }
+        if (msg.equals(YOU_CANT_PLAY_WITH_YOURSELF_PROMPT))
+        {
+            alertShower(new YouCantPlayWithYourselftException() , "You Can't Play XO With Yourself");
+        }
     }
 
     public static void alertShower(Exception e, String title) {
