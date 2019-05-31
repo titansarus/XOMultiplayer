@@ -1,7 +1,6 @@
 package XO.Controllers;
 
 import XO.Client;
-import XO.Model.Account;
 import XO.Model.AccountInfo;
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
@@ -41,7 +40,7 @@ public class LeaderboardFXMLController {
             accountInfos.add(accountInfo);
         }
 
-        /*
+        /* FOR TEST UNCOMMENT THIS
         accountInfos.add(new AccountInfo("abbas" , 3 , 5 , 2));
         accountInfos.add(new AccountInfo("ali" , 4 , 3 , 3));
         accountInfos.add(new AccountInfo("mohammadhossein" , 2 , 6 , 2));

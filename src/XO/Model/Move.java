@@ -3,12 +3,10 @@ package XO.Model;
 public class Move {
     private int row;
     private int column;
-    private int turn;
 
-    Move(int row, int column, int turn) {
+    Move(int row, int column) {
         this.row = row;
         this.column = column;
-        this.turn = turn;
     }
 
     int getRow() {
@@ -19,7 +17,4 @@ public class Move {
         return column;
     }
 
-    public int getTurn() {
-        return turn;
-    }
 }

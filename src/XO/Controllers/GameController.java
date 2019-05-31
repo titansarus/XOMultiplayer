@@ -199,10 +199,6 @@ public class GameController {
         String[] info = parts[0].split(" ");
 
         String[] board = parts[1].split(" ");
-//
-//        out = game.getRow() + " " +game.getColumn();
-//        out = out+ " " + game.getPlayer1().getUsername() + " " + game.getPlayer2().getUsername();
-//        out = out + " " + game.getTurnAccount().getUsername() + " , ";
 
         int row = Integer.parseInt(info[0]);
         int column = Integer.parseInt(info[1]);
@@ -277,8 +273,6 @@ public class GameController {
                     }
                 });
 
-//                label.relocate(rectangle.getLayoutX() + rectangleDim / 2.5, rectangle.getLayoutY() + rectangleDim / 2.5);
-//                label.setText("");
                 blockTexts.add(label);
                 blocks.add(rectangle);
             }

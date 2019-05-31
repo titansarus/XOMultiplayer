@@ -27,9 +27,9 @@ public class MainMenuController {
     public void initialize() {
         Timeline timeline = new Timeline(new KeyFrame(Duration.ZERO, event -> {
             try {
-                updateLoginedUser();
+                updateMainMenuLoginedUser();
                 checkIsSummoned();
-            } catch (IOException e) {
+            } catch (IOException ignore) {
 
             }
         }), new KeyFrame(Duration.seconds(1)));
@@ -38,7 +38,7 @@ public class MainMenuController {
 
     }
 
-    public void updateLoginedUser() throws IOException {
+    public void updateMainMenuLoginedUser() throws IOException {
         Client.dos.writeUTF(LOGINED_USER);
 
         String user = Client.dis.readUTF();

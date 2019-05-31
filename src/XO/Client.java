@@ -1,7 +1,6 @@
 package XO;
 
 import XO.Controllers.Container;
-import XO.Controllers.LoginController;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
@@ -13,8 +12,9 @@ import java.io.DataOutputStream;
 import java.io.IOException;
 import java.net.Socket;
 
+import static XO.Constants.*;
+
 public class Client extends Application {
-    public static Socket socket;
 
     public static DataOutputStream dos;
     public static DataInputStream dis;
@@ -37,7 +37,7 @@ public class Client extends Application {
     }
 
     public static void main(String[] args) throws Exception {
-        Socket socket = new Socket("localhost",55555);
+        Socket socket = new Socket("localhost", port);
         dis = new DataInputStream(socket.getInputStream());
         dos = new DataOutputStream(socket.getOutputStream());
 

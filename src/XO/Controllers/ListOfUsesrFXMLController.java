@@ -5,10 +5,9 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.scene.control.ListView;
-import javafx.scene.control.cell.ComboBoxListCell;
 
 import java.io.IOException;
-import java.util.Observable;
+
 
 import static XO.Constants.*;
 
@@ -18,6 +17,7 @@ public class ListOfUsesrFXMLController {
 
     public static final ObservableList data =
             FXCollections.observableArrayList();
+
     public void updateUsersList() throws IOException {
         String s = GOTO_ALL_USERS;
         Client.dos.writeUTF(s);

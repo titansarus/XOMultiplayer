@@ -89,7 +89,7 @@ public class Game {
         } else if (username.equals(player2.getUsername())) {
             grid[i][j] = 2;
         }
-        addMove(i, j, turn);
+        addMove(i, j);
 
         changeTurn();
     }
@@ -211,8 +211,8 @@ public class Game {
     }
 
 
-    private void addMove(int i, int j, int turn) {
-        moves.add(new Move(i, j, turn));
+    private void addMove(int i, int j) {
+        moves.add(new Move(i, j));
     }
 
     private void changeTurn() {
@@ -232,49 +232,31 @@ public class Game {
         return player1;
     }
 
-    public void setPlayer1(Account player1) {
-        this.player1 = player1;
-    }
 
     public Account getPlayer2() {
         return player2;
     }
 
-    public void setPlayer2(Account player2) {
-        this.player2 = player2;
-    }
 
     public int getRow() {
         return row;
     }
 
-    public void setRow(int row) {
-        this.row = row;
-    }
 
     public int getColumn() {
         return column;
     }
 
-    public void setColumn(int column) {
-        this.column = column;
-    }
 
     public int[][] getGrid() {
         return grid;
     }
 
-    public void setGrid(int[][] grid) {
-        this.grid = grid;
-    }
 
     public long getUID() {
         return UID;
     }
 
-    public void setUID(long UID) {
-        this.UID = UID;
-    }
 
     public Account getTurnAccount() {
         if (turn % 2 == 0) {
@@ -283,9 +265,6 @@ public class Game {
         return player2;
     }
 
-    public int getTurn() {
-        return turn;
-    }
 
     private void setTurn(int turn) {
         this.turn = turn;

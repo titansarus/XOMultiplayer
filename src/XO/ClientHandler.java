@@ -2,12 +2,10 @@ package XO;
 
 import XO.Model.Account;
 import XO.Model.Game;
-import org.omg.CORBA.PUBLIC_MEMBER;
 
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
 import java.io.IOException;
-import java.net.Socket;
 import java.util.ArrayList;
 
 import static XO.Constants.*;
@@ -16,7 +14,6 @@ public class ClientHandler implements Runnable {
 
     private DataOutputStream dos;
     private DataInputStream dis;
-    public long UID;
     private Account account = null;
     private boolean isQuit = false;
     private boolean isSummonedToGame = false;
@@ -24,7 +21,7 @@ public class ClientHandler implements Runnable {
     private boolean isRunnigGamePaused = false;
     private boolean isStopped = false;
 
-    public ClientHandler(DataOutputStream dos, DataInputStream dis, Server server, Socket socket, long UID) {
+    public ClientHandler(DataOutputStream dos, DataInputStream dis) {
         this.dos = dos;
         this.dis = dis;
     }
@@ -234,15 +231,14 @@ public class ClientHandler implements Runnable {
             if (account != null) {
                 if (account.getUsername().equals(this.account.getUsername())) {
                     out = YOU_WIN;
-                    //  account.incrementWins();
                     summonedGameUID = 0;
                 } else if (account.equals(Game.drawAccount)) {
-                    // account.incrementDraws();
+
                     summonedGameUID = 0;
                     out = DRAW;
                 } else {
                     out = YOU_LOSE;
-                    //  account.incrementLoses();
+
                     summonedGameUID = 0;
                 }
             }

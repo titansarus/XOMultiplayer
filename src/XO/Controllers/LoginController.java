@@ -1,14 +1,9 @@
 package XO.Controllers;
 
 import XO.Client;
-import XO.Constants;
-import com.jfoenix.controls.JFXButton;
 import javafx.animation.Animation;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
-import javafx.application.Platform;
-import javafx.event.ActionEvent;
-import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
@@ -18,7 +13,6 @@ import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.Pane;
 import javafx.util.Duration;
-import sun.plugin.dom.DOMObject;
 
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
@@ -48,8 +42,7 @@ public class LoginController {
 
 
     @FXML
-    public void initialize()
-    {
+    public void initialize() {
         Timeline timeline = new Timeline(new KeyFrame(Duration.ZERO, event -> {
             try {
                 updateLoginedUser();
@@ -57,13 +50,13 @@ public class LoginController {
             } catch (IOException e) {
 
             }
-        }),new KeyFrame(Duration.seconds(1)));
+        }), new KeyFrame(Duration.seconds(1)));
         timeline.setCycleCount(Animation.INDEFINITE);
         timeline.play();
 
 
-
     }
+
     public void updateLoginedUser() throws IOException {
         Client.dos.writeUTF(LOGINED_USER);
 
@@ -71,7 +64,8 @@ public class LoginController {
 
         loginedUser_lbl.setText(user);
     }
-    public void checkIsSummoned() throws IOException{
+
+    public void checkIsSummoned() throws IOException {
         Client.dos.writeUTF(SUMMONED);
 
         String summoned = Client.dis.readUTF();
@@ -99,7 +93,6 @@ public class LoginController {
         } catch (IOException e) {
             e.printStackTrace();
         }
-        //((MainMenuFXMLController) fxmlLoader.getController()).updateLoginedUser();
         Container.stage.show();
     }
 
@@ -122,10 +115,8 @@ public class LoginController {
 
     }
 
-    public void handleBtnMainMenu()
-    {
-        if (loginedUser_lbl.getText().equals(NO_USER_LOGINED))
-        {
+    public void handleBtnMainMenu() {
+        if (loginedUser_lbl.getText().equals(NO_USER_LOGINED)) {
             Container.ExceptionGenerator(NO_USER_LOGINED);
             return;
         }

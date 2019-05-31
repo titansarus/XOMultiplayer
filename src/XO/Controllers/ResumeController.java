@@ -13,7 +13,6 @@ import javafx.scene.control.ListView;
 import javafx.scene.control.cell.ComboBoxListCell;
 import javafx.scene.input.MouseEvent;
 import javafx.util.Duration;
-import sun.misc.Cleaner;
 
 
 import java.io.IOException;
@@ -72,15 +71,6 @@ public class ResumeController {
             }
         });
 
-        /*
-         lv.setOnMouseClicked(new EventHandler<MouseEvent>() {
-
-        @Override
-        public void handle(MouseEvent event) {
-            System.out.println("clicked on " + lv.getSelectionModel().getSelectedItem());
-        }
-    });
-         */
 
     }
 
@@ -88,8 +78,7 @@ public class ResumeController {
         data.clear();
 
 
-        for (int i =0;i<games.length;i++)
-        {
+        for (int i = 0; i < games.length; i++) {
             data.add(games[i]);
         }
         listOfGames_lv.setItems(data);

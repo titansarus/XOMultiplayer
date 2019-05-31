@@ -1,6 +1,5 @@
 package XO.Model;
 
-import java.awt.image.AreaAveragingScaleFilter;
 import java.util.ArrayList;
 
 public class Account {
