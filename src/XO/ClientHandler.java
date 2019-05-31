@@ -57,60 +57,94 @@ public class ClientHandler implements Runnable {
                 quit(strings[1]);
             } else if (strings[0].equals(ENTER_GAME)) {
                 enterGame(strings);
-            }
-            else if (strings[0].equals(SUMMONED))
-            {
+            } else if (strings[0].equals(SUMMONED)) {
                 summonCheck();
-            }
-            else if (strings[0].equals(GIVE_INITIAL_MY_GAMEINFO))
-            {
+            } else if (strings[0].equals(GIVE_INITIAL_MY_GAMEINFO)) {
                 giveInitialGameInfo();
-            }
-            else if (strings[0].equals(GIVE_COMPLETE_GAME_INFO))
-            {
-                long uid = summonedGameUID;
-                Game game = Game.findGameByUID(uid,Server.runningGames);
-                String out = "";
-                if (game!=null)
-                {
-                    out = game.getRow() + " " +game.getColumn();
-                    out = out+ " " + game.getPlayer1().getUsername() + " " + game.getPlayer2().getUsername();
-                    out = out + " " + game.getTurnAccount().getUsername() + " , ";
-                    for (int i =0;i<game.getRow();i++)
-                    {
-                        for (int j =0;j<game.getColumn();j++)
-                        {
-                           out =  out + game.getGrid()[i][j] + " ";
-                        }
-                    }
-                    dos.writeUTF(out);
-                }
-                else
-                {
-                    dos.writeUTF(NO_GAME);
-                }
+            } else if (strings[0].equals(GIVE_COMPLETE_GAME_INFO)) {
+                completeGameInfo();
+            } else if (strings[0].equals(INSERT)) {
+                insert(strings);
+            } else if (strings[0].equals(UNDO)) {
+                undo();
+
             }
         }
+    }
+
+    private void undo() throws IOException {
+        String out = "";
+        long uid = summonedGameUID;
+        Game game = Game.findGameByUID(uid, Server.runningGames);
+        if (game != null) {
+            if (game.isUndoable()) {
+                game.undo();
+                out = DONE;
+            } else {
+                out = INVALID_UNDO_PROMPT;
+            }
+        } else {
+            out = NO_GAME;
+        }
+        dos.writeUTF(out);
+    }
+
+    private void insert(String[] strings) throws IOException {
+        long uid = summonedGameUID;
+        Game game = Game.findGameByUID(uid, Server.runningGames);
+        String out = "";
+        if (game != null) {
+            int i = Integer.parseInt(strings[1]);
+            int j = Integer.parseInt(strings[2]);
+
+            if (game.getGrid()[i][j] != 0) {
+                out = BLOCK_IS_NOT_EMPTY_PROMPT;
+            } else {
+                String accountName = strings[3];
+                game.insert(i, j, accountName);
+                out = DONE;
+            }
+
+        } else {
+            out = NO_GAME;
+        }
+        dos.writeUTF(out);
+    }
+
+    private void completeGameInfo() throws IOException {
+        long uid = summonedGameUID;
+        Game game = Game.findGameByUID(uid, Server.runningGames);
+        String out = "";
+        if (game != null) {
+            out = game.getRow() + " " + game.getColumn();
+            out = out + " " + game.getPlayer1().getUsername() + " " + game.getPlayer2().getUsername();
+            out = out + " " + game.getTurnAccount().getUsername() + " , ";
+            for (int i = 0; i < game.getRow(); i++) {
+                for (int j = 0; j < game.getColumn(); j++) {
+                    out = out + game.getGrid()[i][j] + " ";
+                }
+            }
+        } else {
+            out = NO_GAME;
+        }
+        dos.writeUTF(out);
     }
 
     private void giveInitialGameInfo() throws IOException {
         long uid = summonedGameUID;
         Game game = Game.findGameByUID(uid, Server.runningGames);
         String out = NO_GAME;
-        if (game!=null) {
+        if (game != null) {
             out = game.getRow() + " " + game.getColumn();
-            this.isSummonedToGame=false;
+            this.isSummonedToGame = false;
         }
         dos.writeUTF(out);
     }
 
     private void summonCheck() throws IOException {
-        if (isSummonedToGame)
-        {
+        if (isSummonedToGame) {
             dos.writeUTF(SUMMONED_TO_GAME);
-        }
-        else
-        {
+        } else {
             dos.writeUTF(NOT_SUMMONED_TO_GAME);
         }
     }
@@ -134,12 +168,11 @@ public class ClientHandler implements Runnable {
 
         dos.writeUTF(sendMessage);
 
-        if (sendMessage.equals(DONE))
-        {
+        if (sendMessage.equals(DONE)) {
             ClientHandler clientHandler = findClientHandler(username);
-            if (clientHandler!=null) {
+            if (clientHandler != null) {
                 this.isSummonedToGame = true;
-                this.summonedGameUID=Server.gameUID;
+                this.summonedGameUID = Server.gameUID;
                 clientHandler.isSummonedToGame = true;
                 clientHandler.summonedGameUID = Server.gameUID;
                 Game game = new Game(this.account, Account.findAccount(username, Server.loginedAccount), row, column, Server.gameUID++);
@@ -209,13 +242,11 @@ public class ClientHandler implements Runnable {
         dos.writeUTF(sendMessage);
 
     }
-    public static ClientHandler findClientHandler(String username)
-    {
-        for (int i =0;i<Server.clientHandlers.size();i++)
-        {
+
+    public static ClientHandler findClientHandler(String username) {
+        for (int i = 0; i < Server.clientHandlers.size(); i++) {
             ClientHandler clientHandler = Server.clientHandlers.get(i);
-            if (clientHandler!=null && clientHandler.account!=null && clientHandler.account.getUsername().equals(username))
-            {
+            if (clientHandler != null && clientHandler.account != null && clientHandler.account.getUsername().equals(username)) {
                 return clientHandler;
             }
         }

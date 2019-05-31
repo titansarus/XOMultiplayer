@@ -5,6 +5,10 @@ import java.util.ArrayList;
 public class Game {
     private Account player1;
     private Account player2;
+    private boolean isPlayer1Undoed = false;
+    private boolean isPlayer2Undoed = false;
+
+    ArrayList<Move> moves = new ArrayList<>();
     private int row;
     private int column;
     private int[][] grid;
@@ -19,6 +23,52 @@ public class Game {
         this.column = column;
         this.grid = new int[row][column];
         this.UID = UID;
+    }
+
+    public void undo() {
+        if (isUndoable()) {
+            int lastIndex = moves.size() - 1;
+            Move move = moves.get(lastIndex);
+
+            grid[move.getRow()][move.getColumn()] = 0;
+
+            moves.remove(lastIndex);
+            changeUndoable();
+            changeTurn();
+        }
+    }
+
+    private void changeUndoable() {
+        if (turn % 2 == 0) {
+            isPlayer2Undoed = true;
+        } else if (turn % 2 == 1) {
+            isPlayer1Undoed = true;
+        }
+    }
+
+    public boolean isUndoable() {
+        return (turn % 2 == 0 && !isPlayer2Undoed()) || (turn % 2 == 1 && !isPlayer1Undoed());
+    }
+
+
+    public void insert(int i, int j, String username) {
+        if (username.equals(player1.getUsername())) {
+            grid[i][j] = 1;
+        } else if (username.equals(player2.getUsername())) {
+            grid[i][j] = 2;
+        }
+        addMove(i, j, turn);
+
+        changeTurn();
+    }
+
+
+    private void addMove(int i, int j, int turn) {
+        moves.add(new Move(i, j, turn));
+    }
+
+    private void changeTurn() {
+        setTurn((turn + 1) % 2);
     }
 
     public static Game findGameByUID(long UID, ArrayList<Game> games) {
@@ -91,5 +141,13 @@ public class Game {
 
     public void setTurn(int turn) {
         this.turn = turn;
+    }
+
+    public boolean isPlayer1Undoed() {
+        return isPlayer1Undoed;
+    }
+
+    public boolean isPlayer2Undoed() {
+        return isPlayer2Undoed;
     }
 }

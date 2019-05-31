@@ -38,6 +38,12 @@ public class Container {
         if (msg.equals(INVALID_ROW_COL_NUMBER_PROMPT)) {
             alertShower(new InvalidRowColNumberException(), "Invalid Row or Column Number");
         }
+        if (msg.equals(INVALID_UNDO_PROMPT)) {
+            alertShower(new InvalidUndoException(), "Invalid Undo");
+        }
+        if (msg.equals(NOT_YOUR_TURN_PROMPT)) {
+            alertShower(new NotYourTurnException(), "Not Your Turn");
+        }
     }
 
     public static void alertShower(Exception e, String title) {
@@ -68,6 +74,7 @@ public class Container {
         controller.blockMaker();
         controller.updateLoginedUser();
         controller.updateGameBoard();
+        controller.timeLineGen();
 
         root.getChildren().addAll(controller.blocks);
         root.getChildren().addAll(controller.blockTexts);

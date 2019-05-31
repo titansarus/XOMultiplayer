@@ -4,6 +4,9 @@ import XO.Client;
 import XO.Constants;
 import XO.Exceptions.NotYourTurnException;
 import XO.Model.Game;
+import javafx.animation.Animation;
+import javafx.animation.KeyFrame;
+import javafx.animation.Timeline;
 import javafx.event.EventHandler;
 import javafx.event.EventType;
 import javafx.fxml.FXML;
@@ -13,12 +16,12 @@ import javafx.scene.paint.Color;
 import javafx.scene.paint.Paint;
 import javafx.scene.shape.Rectangle;
 import javafx.scene.text.Font;
+import javafx.util.Duration;
 
 import java.io.IOException;
 import java.util.ArrayList;
 
-import static XO.Constants.GIVE_COMPLETE_GAME_INFO;
-import static XO.Constants.LOGINED_USER;
+import static XO.Constants.*;
 
 public class GameController {
 
@@ -48,6 +51,34 @@ public class GameController {
     public int row;
     public int column;
 
+    public void handleBtnUndo() throws IOException {
+        if (turn_lbl.getText().equals(loginedUser_lbl.getText())) {
+            Container.ExceptionGenerator(NOT_YOUR_TURN_PROMPT);
+            return;
+        } else if (getFilledRectanglesCount() < 2) {
+            Container.ExceptionGenerator(INVALID_UNDO_PROMPT);
+        } else {
+            String message = UNDO;
+            Client.dos.writeUTF(message);
+            String result = "";
+            result = Client.dis.readUTF();
+            Container.ExceptionGenerator(result);
+        }
+    }
+
+    public int getFilledRectanglesCount() {
+
+        int count = 0;
+        for (int i = 0; i < blocks.size(); i++) {
+            if (!blocks.get(i).getFill().equals(Color.BLACK)) {
+                count++;
+            }
+        }
+
+        return count;
+
+    }
+
 
     @FXML
     public void initialize() {
@@ -55,10 +86,31 @@ public class GameController {
 
     }
 
-    public void insert(int i, int j) {//TODO CHECK FOR WIN
+    public void timeLineGen() {
+        Timeline timeline = new Timeline(new KeyFrame(Duration.ZERO, event -> {
+            try {
+                updateGameBoard();
+            } catch (IOException e) {
+
+            }
+        }), new KeyFrame(Duration.millis(1378)));
+        timeline.setCycleCount(Animation.INDEFINITE);
+        timeline.play();
+    }
+
+    public void insert(int i, int j) throws IOException {//TODO CHECK FOR WIN
 
         if (!turn_lbl.getText().equals(loginedUser_lbl.getText())) {
-            Container.alertShower(new NotYourTurnException(), "Not Your Turn");
+            Container.ExceptionGenerator(NOT_YOUR_TURN_PROMPT);
+        } else {
+            String out = INSERT + " " + i + " " + j + " " + loginedUser_lbl.getText();
+            Client.dos.writeUTF(out);
+            String result = Client.dis.readUTF();
+            if (result.equals(DONE)) {
+                updateGameBoard();
+            } else {
+                Container.ExceptionGenerator(result);
+            }
         }
 
     }
@@ -76,6 +128,9 @@ public class GameController {
         Client.dos.writeUTF(GIVE_COMPLETE_GAME_INFO);
 
         String out = Client.dis.readUTF();
+        if (out.equals(NO_GAME)) {
+            return;
+        }
 
         String[] parts = out.split(" , ");
 
@@ -104,7 +159,26 @@ public class GameController {
             System.out.println();
             ;
         }
+        blockPainter(board);
 
+    }
+
+    void blockPainter(String[] board) {
+        for (int i = 0; i < row; i++) {
+            for (int j = 0; j < row; j++) {
+                blocks.get(i * row + j).setFill(colorSelector(board[i * row + j]));
+
+            }
+        }
+    }
+
+    Color colorSelector(String string) {
+        if (string.equals("1")) {
+            return Color.BLUEVIOLET;
+        } else if (string.equals("2")) {
+            return Color.valueOf("#CC2233");
+        }
+        return Color.BLACK;
     }
 
 
@@ -127,7 +201,11 @@ public class GameController {
                     public void handle(MouseEvent event) {
                         int i = findNumberOfRcetangle(rectangle);
                         if (i != -1) {
-                            insert(i / row, i % column);
+                            try {
+                                insert(i / row, i % column);
+                            } catch (IOException e) {
+                                e.printStackTrace();
+                            }
                         }
 
                     }
