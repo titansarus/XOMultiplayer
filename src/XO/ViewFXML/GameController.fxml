@@ -11,9 +11,9 @@
       <Label fx:id="loginedUser_lbl" layoutX="670.0" layoutY="14.0" prefHeight="17.0" prefWidth="280.0" />
       <Label layoutX="64.0" layoutY="860.0" text="Player1:" />
       <Label fx:id="player1_lbl" layoutX="64.0" layoutY="877.0" prefHeight="17.0" prefWidth="121.0" />
-      <Label layoutX="862.0" layoutY="860.0" text="Player2" />
+      <Label layoutX="862.0" layoutY="860.0" text="Player2:" />
       <Label fx:id="player2_lbl" layoutX="862.0" layoutY="877.0" prefHeight="17.0" prefWidth="121.0" />
-      <Label layoutX="440.0" layoutY="860.0" text="Turn" />
+      <Label layoutX="440.0" layoutY="860.0" text="Turn:" />
       <Label fx:id="turn_lbl" layoutX="440.0" layoutY="877.0" prefHeight="17.0" prefWidth="121.0" />
    </children>
 </AnchorPane>

@@ -1,6 +1,8 @@
 package XO.Controllers;
 
 import XO.Client;
+import XO.Constants;
+import XO.Exceptions.NotYourTurnException;
 import XO.Model.Game;
 import javafx.event.EventHandler;
 import javafx.event.EventType;
@@ -53,6 +55,14 @@ public class GameController {
 
     }
 
+    public void insert(int i, int j) {//TODO CHECK FOR WIN
+
+        if (!turn_lbl.getText().equals(loginedUser_lbl.getText())) {
+            Container.alertShower(new NotYourTurnException(), "Not Your Turn");
+        }
+
+    }
+
     public void updateLoginedUser() throws IOException {
         Client.dos.writeUTF(LOGINED_USER);
 
@@ -61,7 +71,7 @@ public class GameController {
         loginedUser_lbl.setText(user);
     }
 
-    public void updateGameBoard() throws IOException{
+    public void updateGameBoard() throws IOException {
 
         Client.dos.writeUTF(GIVE_COMPLETE_GAME_INFO);
 
@@ -79,25 +89,23 @@ public class GameController {
 
         int row = Integer.parseInt(info[0]);
         int column = Integer.parseInt(info[1]);
-        String player1 =  info[2];
-        String player2 =  info[3];
+        String player1 = info[2];
+        String player2 = info[3];
         String turn = info[4];
 
         player1_lbl.setText(player1);
         player2_lbl.setText(player2);
         turn_lbl.setText(turn);
 
-        for (int i =0;i<row;i++)
-        {
-            for (int j =0;j<column;j++)
-            {
-                System.out.printf("%s " , board[i*row+j]);
+        for (int i = 0; i < row; i++) {
+            for (int j = 0; j < column; j++) {
+                System.out.printf("%s ", board[i * row + j]);
             }
-            System.out.println();;
+            System.out.println();
+            ;
         }
 
     }
-
 
 
     void blockMaker() {
@@ -114,13 +122,16 @@ public class GameController {
                 label.setFont(Font.font(15));
 
                 rectangle.setFill(Color.BLACK);
-//                rectangle.setOnMouseClicked(new EventHandler<MouseEvent>() {
-//                    @Override
-//                    public void handle(MouseEvent event) {
-//                        Client.dos.writeUTF();
-//
-//                    }
-//                });
+                rectangle.setOnMouseClicked(new EventHandler<MouseEvent>() {
+                    @Override
+                    public void handle(MouseEvent event) {
+                        int i = findNumberOfRcetangle(rectangle);
+                        if (i != -1) {
+                            insert(i / row, i % column);
+                        }
+
+                    }
+                });
 
                 label.relocate(rectangle.getLayoutX() + rectangleDim / 2.5, rectangle.getLayoutY() + rectangleDim / 2.5);
                 label.setText("");
@@ -129,6 +140,15 @@ public class GameController {
             }
         }
 
+    }
+
+    public int findNumberOfRcetangle(Rectangle rectangle) {
+        for (int i = 0; i < blocks.size(); i++) {
+            if (blocks.get(i) == rectangle) {
+                return i;
+            }
+        }
+        return -1;
     }
 
 }
