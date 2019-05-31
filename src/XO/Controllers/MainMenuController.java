@@ -47,17 +47,17 @@ public class MainMenuController {
 
 
     }
-    public void checkIsSummoned() throws IOException{
+
+    public void checkIsSummoned() throws IOException {
         Client.dos.writeUTF(SUMMONED);
 
         String summoned = Client.dis.readUTF();
 
-        if (summoned.equals(SUMMONED_TO_GAME))
-        {
+        if (summoned.equals(SUMMONED_TO_GAME)) {
             String sendMessage2 = GIVE_INITIAL_MY_GAMEINFO;
             Client.dos.writeUTF(sendMessage2);
             String[] strings = Client.dis.readUTF().split(" ");
-            new Container().enterGame(Integer.parseInt(strings[0]),Integer.parseInt(strings[1]));
+            new Container().enterGame(Integer.parseInt(strings[0]), Integer.parseInt(strings[1]));
         }
     }
 
@@ -75,8 +75,7 @@ public class MainMenuController {
         System.exit(0);
     }
 
-    public void handleBtnLeaderboard()
-    {
+    public void handleBtnLeaderboard() {
         Pane root = null;
         FXMLLoader fxmlLoader = null;
         try {
@@ -104,8 +103,7 @@ public class MainMenuController {
         int row = gettingNumberOfRowsFromUser();
         int column = gettingNumberOfColumnsFromUser();
         String anotherUsername = gettingAnotherPlayerAccountUsername();
-        if (anotherUsername.equals(loginedUser_lbl.getText()))
-        {
+        if (anotherUsername.equals(loginedUser_lbl.getText())) {
             Container.ExceptionGenerator(YOU_CANT_PLAY_WITH_YOURSELF_PROMPT);
             return;
         }
@@ -117,14 +115,6 @@ public class MainMenuController {
         if (!recievedMessage.equals(DONE)) {
             Container.ExceptionGenerator(recievedMessage);
         }
-//        else
-//        {
-//            String sendMessage2 = GIVE_INITIAL_MY_GAMEINFO;
-//            Client.dos.writeUTF(sendMessage2);
-//            String[] strings = Client.dis.readUTF().split(" ");
-//            new Container().enterGame(Integer.parseInt(strings[0]),Integer.parseInt(strings[1]));
-//        }
-
     }
 
 
@@ -144,8 +134,7 @@ public class MainMenuController {
     }
 
 
-    public void handleBtnResume()
-    {
+    public void handleBtnResume() {
         Pane root = null;
         FXMLLoader fxmlLoader = null;
         try {
@@ -171,38 +160,28 @@ public class MainMenuController {
 
     private int gettingNumberOfRowsFromUser() {
         int n = 3;
-        TextInputDialog textInputDialog = new TextInputDialog();
-        textInputDialog.setTitle("Size of Board");
-        textInputDialog.setHeaderText("Please Enter a number between 3 to 10. Default is 3");
-        textInputDialog.setContentText("Board Size Rows (n):");
-        Optional<String> result = textInputDialog.showAndWait();
-        if (result.isPresent()) {
-
-            //TODO CHECK IF USER INPUTS VALID NUMBER;
-            //TODO DUPLICATE
-            n = Integer.parseInt(result.get());
-
-        }
-
+        n = textDialogGenerator("Size of Board", "Please Enter a number between 3 to 10. Default is 3", "Board Size Rows (n):");
         return n;
     }
 
     private int gettingNumberOfColumnsFromUser() {
         int n = 3;
+        n = textDialogGenerator("Size of Board", "Please Enter a number between 3 to 10. Default is 3", "Board Size Columns (n):");
+        return n;
+    }
+
+    private int textDialogGenerator(String title, String headerText, String ContentText) {
+        int n = 3;
         TextInputDialog textInputDialog = new TextInputDialog();
-        textInputDialog.setTitle("Size of Board");
-        textInputDialog.setHeaderText("Please Enter a number between 3 to 10. Default is 3");
-        textInputDialog.setContentText("Board Size Columns (n):");
+        textInputDialog.setTitle(title);
+        textInputDialog.setHeaderText(headerText);
+        textInputDialog.setContentText(ContentText);
         Optional<String> result = textInputDialog.showAndWait();
         if (result.isPresent()) {
-
-            //TODO CHECK IF USER INPUTS VALID NUMBER;
-            //TODO DUPLICATE
             n = Integer.parseInt(result.get());
-
         }
-
         return n;
+
     }
 
 
