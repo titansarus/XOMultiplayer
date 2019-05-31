@@ -8,6 +8,7 @@ import java.io.DataInputStream;
 import java.io.DataOutputStream;
 import java.io.IOException;
 import java.net.Socket;
+import java.util.ArrayList;
 
 import static XO.Constants.*;
 
@@ -21,7 +22,7 @@ public class ClientHandler implements Runnable {
     public boolean isQuit = false;
     public boolean isSummonedToGame = false;
     public long summonedGameUID = 0;
-    public boolean isRunnigGamePaused=false;
+    public boolean isRunnigGamePaused = false;
 
     public ClientHandler(DataOutputStream dos, DataInputStream dis, Server server, Socket socket, long UID) {
         this.dos = dos;
@@ -73,25 +74,38 @@ public class ClientHandler implements Runnable {
                 winCheck();
             } else if (strings[0].equals(GIVE_ALL_ACCOUNT_INFO)) {
                 giveAllAccountsInfo();
-            }
-            else if (strings[0].equals(PAUSE))
-            {
+            } else if (strings[0].equals(PAUSE)) {
                 pause();
-            }
-            else if (strings[0].equals(CHECK_PAUSED))
-            {
-                String out = NOT_PAUSED;
-                if (isRunnigGamePaused)
-                {
-                    out=YES_PAUSED;
-                    isRunnigGamePaused = false;
-                    summonedGameUID= 0;
+            } else if (strings[0].equals(CHECK_PAUSED)) {
+                checkPaused();
+            } else if (strings[0].equals(LIST_OF_PAUSED_GAMES)) {
+                String username = strings[1];
+                ArrayList<Game> games = Game.findListOfPausedGames(username, Server.pausedGames);
+                StringBuilder sb = new StringBuilder();
+                for (int i = 0; i < games.size(); i++) {
+                    Game game = games.get(i);
+                    if (game != null) {
+                        sb.append(game.getUID()).append(" ")
+                                .append(game.getPlayer1().getUsername()).append(" ").append(game.getPlayer2().getUsername())
+                                .append(" ").append(game.getRow()).append(" ").append(game.getColumn()).append(" , ");
+                    }
                 }
-                dos.writeUTF(out);
+                dos.writeUTF(sb.toString());
+
             }
 
 
         }
+    }
+
+    private void checkPaused() throws IOException {
+        String out = NOT_PAUSED;
+        if (isRunnigGamePaused) {
+            out = YES_PAUSED;
+            isRunnigGamePaused = false;
+            summonedGameUID = 0;
+        }
+        dos.writeUTF(out);
     }
 
     private void pause() {
@@ -100,11 +114,11 @@ public class ClientHandler implements Runnable {
 
         ClientHandler c1 = findClientHandler(game.getPlayer1().getUsername());
         ClientHandler c2 = findClientHandler(game.getPlayer2().getUsername());
-        if (c1!=null) {
-            c1.isRunnigGamePaused=true;
+        if (c1 != null) {
+            c1.isRunnigGamePaused = true;
         }
-        if (c2!=null) {
-            c2.isRunnigGamePaused=true;
+        if (c2 != null) {
+            c2.isRunnigGamePaused = true;
         }
         Server.pausedGames.add(game);
     }

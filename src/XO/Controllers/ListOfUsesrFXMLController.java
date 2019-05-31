@@ -29,7 +29,6 @@ public class ListOfUsesrFXMLController {
         {
             data.add(users[i]);
         }
-
         users_lv.setItems(data);
         users_lv.setCellFactory(ComboBoxListCell.forListView(data));
 

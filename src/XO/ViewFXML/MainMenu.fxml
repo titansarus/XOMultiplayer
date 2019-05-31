@@ -12,6 +12,6 @@
       <Button layoutX="240.0" layoutY="299.0" mnemonicParsing="false" onAction="#handeBtnQuit" prefHeight="46.0" prefWidth="120.0" text="Quit" />
       <Label fx:id="loginedUser_lbl" layoutX="374.0" layoutY="14.0" prefHeight="17.0" prefWidth="212.0" />
       <Label layoutX="277.0" layoutY="14.0" prefHeight="17.0" prefWidth="83.0" text="Logined User:" />
-      <Button fx:id="resumeBtn" layoutX="240.0" layoutY="220.0" mnemonicParsing="false" prefHeight="46.0" prefWidth="120.0" text="Quit" />
+      <Button fx:id="resumeBtn" layoutX="240.0" layoutY="220.0" mnemonicParsing="false" onAction="#handleBtnResume" prefHeight="46.0" prefWidth="120.0" text="Resume" />
    </children>
 </AnchorPane>

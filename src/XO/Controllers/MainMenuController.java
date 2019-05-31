@@ -138,6 +138,31 @@ public class MainMenuController {
         return s;
     }
 
+
+    public void handleBtnResume()
+    {
+        Pane root = null;
+        FXMLLoader fxmlLoader = null;
+        try {
+            fxmlLoader = new FXMLLoader(getClass().getResource("/XO/ViewFXML/Resume.fxml"));
+            root = fxmlLoader.load();
+            int i = 0;
+            System.out.println(i);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        Scene scene = new Scene(root);
+        Container.scenes.addLast(scene);
+        Container.stage.setScene(Container.scenes.getLast());
+        try {
+            ((ResumeController) fxmlLoader.getController()).updateLoginedUser();
+            ((ResumeController) fxmlLoader.getController()).fillListView();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        Container.stage.show();
+    }
+
     private int gettingNumberOfRowsFromUser() {
         int n = 3;
         TextInputDialog textInputDialog = new TextInputDialog();
@@ -181,7 +206,5 @@ public class MainMenuController {
             Container.stage.setScene(Container.scenes.getLast());
             Container.stage.show();
         }
-
-
     }
 }
