@@ -1,5 +1,7 @@
-XO Multiplayer
+# XO Multiplayer
 
-Amirmahdi Namjoo
+## Amirmahdi Namjoo
 
-AP_Spring2019@SUT
+### AP Spring2019 @ Sharif University of Technology
+
+HW3 - Q3
